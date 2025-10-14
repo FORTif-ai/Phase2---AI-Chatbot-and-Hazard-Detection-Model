@@ -1,6 +1,6 @@
 # Imports
 from flask import Flask
-from . import pages        # Import the blueprint from pages.py
+from Board import pages       # Import the blueprint from pages.py
 
 
 def create_app():

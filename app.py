@@ -1,5 +1,5 @@
 # Import the Flask application factory function
-from board import create_app
+from Board import create_app
 
 # Call factory function to create the Flask App
 app = create_app()
