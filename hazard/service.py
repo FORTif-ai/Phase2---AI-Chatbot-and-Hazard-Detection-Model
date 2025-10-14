@@ -4,7 +4,7 @@
 # # Load model once at import
 
 # #MODEL_PATH = "runs/detect/train8/weights/best.pt"
-# MODEL_PATH = "C:\\Users\\edken\\Phase1---AI-Chatbot-and-Hazard-Detection-Model\\Merged Chatbot\\yolov8n.pt"
+# MODEL_PATH = "C:\\Users\\USER\\Phase1---AI-Chatbot-and-Hazard-Detection-Model\\Merged Chatbot\\yolov8n.pt"
 # model = YOLO(MODEL_PATH)     # Load trained YOLO model
 # labels = model.names         # get class labels
 
