@@ -42,8 +42,8 @@ async def listen_for_commands():
 
                     # ➍ SAVE the clip so Whisper can read it
                     fname = f"captured.wav"
-                    #with open(fname, "wb") as f:
-                     #   f.write(wav_audio)
+                    with open(fname, "wb") as f:
+                        f.write(wav_audio)
 
                     # ➎ Transcribe
                     

@@ -19,7 +19,7 @@ class Processor:
         # Initialize the LLM (Gemini for testing)
         self.llm = ChatGoogleGenerativeAI(
             model='gemini-2.5-flash',
-            api_key='AIzaSyAerI98p3AdWlG2bJfjgAFCcKkJKAGbbxI'
+            api_key='API KEY' #add ur api key here
         )
         
         # Defined actions for the LLM
