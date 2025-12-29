@@ -1,0 +1,6 @@
+google-genai>=1.0.0
+Pillow>=10.0.0
+python-dotenv>=1.0.0
+opencv-python>=4.8.0
+twilio>=8.0.0
+
