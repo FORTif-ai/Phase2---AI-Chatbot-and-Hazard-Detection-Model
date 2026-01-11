@@ -1,0 +1,244 @@
+================================================================================
+HAZARD DETECTION TEST RESULTS - BATCH TESTING
+================================================================================
+Test Date: 2025-12-29 00:44:28
+Directory: C:\Users\sekar\HazardDetection\test_images
+Total Images: 10
+================================================================================
+
+
+================================================================================
+IMAGE #1: IMG_6722.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:44:35
+
+People Detected: No
+Hazard Detected: Yes
+Summary: Exposed wires hanging from the ceiling and protruding furniture corners pose a risk to navigation in the space.
+
+Hazards Found: 3
+
+  Hazard #1:
+    Type: exposed wires
+    Location: ceiling
+    Severity: medium
+    Details: Wires are hanging from the ceiling and could be a tripping hazard or pose an electrical risk.
+    SMS Text: exposed wires near ceiling
+
+  Hazard #2:
+    Type: bed corner
+    Location: right side of bed
+    Severity: medium
+    Details: The corner of the bed frame is protruding and could be a hazard for people walking by.
+    SMS Text: bed corner near walkway
+
+  Hazard #3:
+    Type: nightstand corner
+    Location: right side of nightstand
+    Severity: medium
+    Details: The corner of the nightstand is sharp and could cause injury if bumped into.
+    SMS Text: nightstand corner near walkway
+
+
+================================================================================
+IMAGE #2: IMG_6723.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:44:45
+
+People Detected: No
+Hazard Detected: Yes
+Summary: A pointed corner of a dark cabinet poses a tripping hazard in the walkway.
+
+Hazards Found: 1
+
+  Hazard #1:
+    Type: pointed furniture edges
+    Location: corner of the dark cabinet
+    Severity: medium
+    Details: The dark cabinet on the left has a sharp corner that protrudes into the walkway.
+    SMS Text: pointed cabinet corner near walkway
+
+
+================================================================================
+IMAGE #3: IMG_6724.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:44:55
+
+People Detected: No
+Hazard Detected: Yes
+Summary: The space contains furniture with pointed and protruding edges that could pose a tripping or impact hazard to people navigating the area.
+
+Hazards Found: 2
+
+  Hazard #1:
+    Type: pointed furniture edges
+    Location: ottoman in front of couch
+    Severity: medium
+    Details: The corners of the ottoman are pointed and could pose a risk if someone were to walk into them, especially in a low-light environment or if moving quickly.
+    SMS Text: pointed ottoman edge near couch
+
+  Hazard #2:
+    Type: protruding furniture edges
+    Location: sectional couch
+    Severity: medium
+    Details: The corner of the sectional couch, where the chaise extends, is a potential hazard for people walking by.
+    SMS Text: protruding couch corner near walkway
+
+
+================================================================================
+IMAGE #4: IMG_6725.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:45:06
+
+People Detected: No
+Hazard Detected: Yes
+Summary: A sharp bed corner is protruding into the walkway, posing a tripping and injury hazard.
+
+Hazards Found: 1
+
+  Hazard #1:
+    Type: bed corner
+    Location: bottom right corner of the bed
+    Severity: medium
+    Details: The wooden bed frame has a sharp corner that protrudes into the walkway.
+    SMS Text: sharp bed corner near walkway
+
+
+================================================================================
+IMAGE #5: IMG_6726.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:45:16
+
+People Detected: No
+Hazard Detected: Yes
+Summary: The corner of the bed frame at the foot of the bed poses a medium severity hazard due to its potential to cause injury.
+
+Hazards Found: 1
+
+  Hazard #1:
+    Type: bed corner
+    Location: foot of the bed
+    Severity: medium
+    Details: The corner of the bed frame at the foot of the bed is a potential tripping hazard and could cause injury if bumped into.
+    SMS Text: bed corner near foot of bed
+
+
+================================================================================
+IMAGE #6: IMG_6730.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:45:25
+
+People Detected: No
+Hazard Detected: Yes
+Summary: A protruding cabinet edge in the kitchen poses a potential tripping hazard.
+
+Hazards Found: 1
+
+  Hazard #1:
+    Type: protruding cabinet edge
+    Location: bottom right corner of kitchen cabinets
+    Severity: medium
+    Details: The bottom right corner of the kitchen cabinets protrudes slightly, creating a potential tripping or bumping hazard for anyone walking past.
+    SMS Text: protruding cabinet edge near kitchen corner
+
+
+================================================================================
+IMAGE #7: IMG_6731.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:45:34
+
+People Detected: No
+Hazard Detected: Yes
+Summary: Clutter on the kitchen counter and a towel hanging over a cabinet pose a medium risk in the walkway.
+
+Hazards Found: 2
+
+  Hazard #1:
+    Type: clutter on walkway
+    Location: kitchen counter
+    Severity: medium
+    Details: Various items including jars, cups, and a sponge are placed on the kitchen counter, potentially obstructing movement or causing items to fall.
+    SMS Text: clutter on kitchen counter
+
+  Hazard #2:
+    Type: clutter on walkway
+    Location: floor
+    Severity: medium
+    Details: A towel is hanging over the edge of a cabinet, potentially obstructing the walkway.
+    SMS Text: towel hanging over cabinet
+
+
+================================================================================
+IMAGE #8: IMG_6732.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:45:44
+
+People Detected: Yes
+Hazard Detected: Yes
+Summary: The space contains furniture with pointed legs and sharp corners that could pose a tripping or injury hazard.
+
+Hazards Found: 2
+
+  Hazard #1:
+    Type: pointed furniture edges
+    Location: round table
+    Severity: medium
+    Details: The round table has legs that extend outwards and could be a tripping hazard.
+    SMS Text: pointed table legs near walkway
+
+  Hazard #2:
+    Type: sharp table corners
+    Location: dark brown cabinet
+    Severity: medium
+    Details: The corners of the dark brown cabinet are sharp and could cause injury if bumped into.
+    SMS Text: sharp cabinet corners near walkway
+
+
+================================================================================
+IMAGE #9: IMG_6733.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:45:54
+
+People Detected: No
+Hazard Detected: Yes
+Summary: A sectional sofa corner protrudes into the walkway, posing a potential tripping or impact hazard.
+
+Hazards Found: 1
+
+  Hazard #1:
+    Type: pointed furniture edges
+    Location: corner of the sectional sofa
+    Severity: medium
+    Details: The corner of the sectional sofa, particularly the chaise lounge portion, protrudes into the walkway. This could pose a tripping or impact hazard.
+    SMS Text: pointed sofa corner near walkway
+
+
+================================================================================
+IMAGE #10: IMG_6734.jpg
+================================================================================
+Analysis Time: 2025-12-29 00:46:04
+
+People Detected: No
+Hazard Detected: Yes
+Summary: Rolled blueprints near the nightstand and an exposed bed corner present potential tripping and impact hazards in the walkway.
+
+Hazards Found: 2
+
+  Hazard #1:
+    Type: pointed furniture edges
+    Location: rolled blueprints near nightstand
+    Severity: medium
+    Details: The rolled blueprints are leaning against the nightstand and could potentially fall or cause someone to trip if they are not careful when navigating the space.
+    SMS Text: pointed objects near nightstand
+
+  Hazard #2:
+    Type: bed corners
+    Location: bottom corner of the bed
+    Severity: medium
+    Details: The corner of the bed frame is exposed and could pose a tripping or impact hazard for someone walking by.
+    SMS Text: bed corner near walkway
+
+
+================================================================================
+END OF TEST RESULTS
+================================================================================
