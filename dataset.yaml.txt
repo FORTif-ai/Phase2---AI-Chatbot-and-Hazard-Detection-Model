@@ -1,0 +1,22 @@
+# YOLO Dataset Configuration for PHELE Hazard Detection
+
+train: PHELE/train/images
+val: PHELE/val/images
+test: PHELE/test/images
+
+nc: 13
+names: [
+  'Animal hair',
+  'Dog',
+  'Hazardous electrical cords or wires',
+  'Uneven or broken steps/staircases',
+  'Loose or uneven carpets/rugs',
+  'Peeling paint',
+  'Chair',
+  'Cat',
+  'Sharp edges or objects',
+  'Mold/dampness',
+  'Fire',
+  'Mouse',
+  'Bed bugs'
+] 
