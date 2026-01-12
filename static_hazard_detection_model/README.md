@@ -7,9 +7,9 @@
 ## Running YOLO
 ### Folder of images as input
 - Set variables in ```run_yolo_image_batch.py```
-  - TEST_IMAGES_DIR should to point to the folder of input images
+  - TEST_IMAGES_DIR should to point to the folder of input images (some test images have been provided in the ```test_image_inputs``` folder)
   - SAVE_DIR should point to the folder where you want the model output to be stored
-  - MODEL_PATH should point to the YOLO model you want to use
+  - MODEL_PATH should point to the YOLO model you want to use (refer to the Other information section to find the path to the latest model)
 - Run ```python run_yolo_image_batch.py```
 
 ### Single image as input
