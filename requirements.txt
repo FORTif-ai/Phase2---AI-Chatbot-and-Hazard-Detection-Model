@@ -62,3 +62,8 @@ fastapi[all]
 pydantic-settings
 pydantic-core
 slowapi
+
+# Dashboard Authentication
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart

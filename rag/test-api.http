@@ -1,0 +1,72 @@
+### Add a new memory for patient_123
+POST http://localhost:8000/api/ingest
+Content-Type: application/json
+X-API-Key: fortifai-dev-key-2024
+
+{
+    "patient_id": "patient_123",
+    "raw_text": "Eleanor enjoys listening to Frank Sinatra records in the evening. Her favorite song is 'My Way' which reminds her of Robert's proposal.",
+    "source": "family_questionnaire",
+    "topic": "hobbies",
+    "is_sensitive": false,
+    "entities": ["Frank Sinatra", "My Way", "Robert"],
+    "emotion": "positive"
+}
+
+###
+
+### List memories for patient_123
+GET http://localhost:8000/api/dashboard/patients/patient_123/memories?per_page=20
+
+###
+
+### Get memory stats
+GET http://localhost:8000/api/dashboard/patients/patient_123/stats
+
+###
+
+### Health check
+GET http://localhost:8000/api/health
+
+###
+
+### Chat with the AI about patient memories
+POST http://localhost:8000/api/query
+Content-Type: application/json
+X-API-Key: fortifai-dev-key-2024
+
+{
+    "patient_id": "patient_123",
+    "question": "Tell me about Eleanor's family",
+    "include_sensitive": false,
+    "limit": 3
+}
+
+###
+
+### Ask about hobbies
+POST http://localhost:8000/api/query
+Content-Type: application/json
+X-API-Key: fortifai-dev-key-2024
+
+{
+    "patient_id": "patient_123",
+    "question": "What does Eleanor like to do in her free time?",
+    "include_sensitive": false,
+    "emotion_filter": "positive",
+    "limit": 3
+}
+
+###
+
+### Ask about daily routine
+POST http://localhost:8000/api/query
+Content-Type: application/json
+X-API-Key: fortifai-dev-key-2024
+
+{
+    "patient_id": "patient_123",
+    "question": "What is Eleanor's morning routine?",
+    "include_sensitive": false,
+    "limit": 3
+}

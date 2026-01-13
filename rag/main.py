@@ -32,6 +32,9 @@ from ingest import (
     process_and_ingest_data
 )
 
+# Dashboard imports
+from routers.memories import router as memories_router
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -127,6 +130,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include dashboard router
+app.include_router(memories_router)
 
 
 # Exception handlers
