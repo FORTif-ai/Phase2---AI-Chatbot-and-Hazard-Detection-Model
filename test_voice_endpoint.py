@@ -3,7 +3,7 @@ import os
 
 # Configuration
 API_URL = "http://localhost:8000/api/voice-query"
-API_KEY = "REMOVED_API_KEY"  # Assuming this is the dev key, check .env if needed
+API_KEY = os.getenv("OPENAI_API_KEY", "your-api-key-here")  # Set OPENAI_API_KEY env var
 AUDIO_FILE = "captured.wav"
 PATIENT_ID = "patient_123"
 
