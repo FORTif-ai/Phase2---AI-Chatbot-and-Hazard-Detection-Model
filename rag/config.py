@@ -88,6 +88,27 @@ class Settings(BaseSettings):
     max_retries: int = Field(default=3, description="Maximum retry attempts")
     retry_delay: int = Field(default=2, description="Retry delay in seconds")
 
+    # === JWT Authentication Configuration ===
+    jwt_secret_key: str = Field(
+        default="fortifai-dev-secret-change-in-production",
+        description="Secret key for JWT token signing (change in production)"
+    )
+    jwt_algorithm: str = Field(default="HS256", description="JWT signing algorithm")
+    access_token_expire_minutes: int = Field(
+        default=30,
+        description="Access token expiration time in minutes"
+    )
+    refresh_token_expire_days: int = Field(
+        default=7,
+        description="Refresh token expiration time in days"
+    )
+
+    # === Dashboard Database Configuration ===
+    sqlite_database_path: str = Field(
+        default="fortifai.db",
+        description="SQLite database file path (relative to rag directory)"
+    )
+
     @field_validator("google_api_key")
     @classmethod
     def validate_api_key(cls, v):
