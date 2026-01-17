@@ -4,6 +4,7 @@ import sys
 import json
 import time
 import zipfile
+import argparse
 from io import BytesIO
 from datetime import datetime
 from dotenv import load_dotenv
@@ -300,7 +301,7 @@ def process_video_continuous(video_path: str, poll_interval: float = 4.0, api_ke
 
 
 def process_zip_images(zip_path: str, output_file: str = "testing_documentation/hallway_images.txt", 
-                       api_key: str | None = None, poll_interval: float = 4.0) -> None:
+                       api_key: str | None = None, poll_interval: float = 4.0) -> list:
     """
     Process all JPG images from a zip file and document results in a text file.
     
@@ -331,6 +332,7 @@ def process_zip_images(zip_path: str, output_file: str = "testing_documentation/
     # Extract JPG images from zip
     image_files = []
     temp_extract_dir = None
+    image_results = []
     
     try:
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
@@ -375,6 +377,14 @@ def process_zip_images(zip_path: str, output_file: str = "testing_documentation/
                 try:
                     # Analyze image
                     result = detect_hazards(image_path, api_key=api_key)
+                    
+                    # Store image result with path
+                    image_result = {
+                        "image_path": image_path,
+                        "image_filename": image_file,
+                        "result": result
+                    }
+                    image_results.append(image_result)
                     
                     # Write results to file
                     f.write(f"\n{'=' * 80}\n")
@@ -425,6 +435,14 @@ def process_zip_images(zip_path: str, output_file: str = "testing_documentation/
                     f.write(f"IMAGE #{idx}: {image_file}\n")
                     f.write(f"{'=' * 80}\n")
                     f.write(f"ERROR: {error_msg}\n\n")
+                    
+                    # Store error result
+                    image_result = {
+                        "image_path": image_path,
+                        "image_filename": image_file,
+                        "error": error_msg
+                    }
+                    image_results.append(image_result)
             
             # Write footer
             f.write("\n" + "=" * 80 + "\n")
@@ -443,10 +461,12 @@ def process_zip_images(zip_path: str, output_file: str = "testing_documentation/
             import shutil
             shutil.rmtree(temp_extract_dir)
             print(f"\nCleaned up temporary files.")
+    
+    return image_results
 
 
 def process_directory_images(image_dir: str, output_file: str = "testing_documentation/hallway_images.txt", 
-                             api_key: str | None = None, poll_interval: float = 4.0) -> None:
+                             api_key: str | None = None, poll_interval: float = 4.0) -> list:
     """
     Process all JPG images from a directory and document results in a text file.
     
@@ -478,6 +498,7 @@ def process_directory_images(image_dir: str, output_file: str = "testing_documen
     print(f"Polling interval: {poll_interval} seconds (respects 15 RPM rate limit)\n")
     
     # Get list of JPG files from directory
+    image_results = []
     image_files = []
     for file in os.listdir(image_dir):
         if file.lower().endswith(('.jpg', '.jpeg')):
@@ -513,6 +534,14 @@ def process_directory_images(image_dir: str, output_file: str = "testing_documen
             try:
                 # Analyze image
                 result = detect_hazards(image_path, api_key=api_key)
+                
+                # Store image result with path
+                image_result = {
+                    "image_path": image_path,
+                    "image_filename": image_file,
+                    "result": result
+                }
+                image_results.append(image_result)
                 
                 # Write results to file
                 f.write(f"\n{'=' * 80}\n")
@@ -563,6 +592,14 @@ def process_directory_images(image_dir: str, output_file: str = "testing_documen
                 f.write(f"IMAGE #{idx}: {image_file}\n")
                 f.write(f"{'=' * 80}\n")
                 f.write(f"ERROR: {error_msg}\n\n")
+                
+                # Store error result
+                image_result = {
+                    "image_path": image_path,
+                    "image_filename": image_file,
+                    "error": error_msg
+                }
+                image_results.append(image_result)
         
         # Write footer
         f.write("\n" + "=" * 80 + "\n")
@@ -574,6 +611,8 @@ def process_directory_images(image_dir: str, output_file: str = "testing_documen
     print(f"Results documented in: {output_file}")
     print(f"Total images processed: {len(image_files)}")
     print(f"{'=' * 60}")
+    
+    return image_results
 
 
 def print_results(result: dict) -> None:
@@ -613,21 +652,32 @@ def print_results(result: dict) -> None:
 
 
 def main():
-    MODE = "directory"  # Change to "image", "video", "batch", or "directory"
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description='Hazard Detection using Gemini AI')
+    parser.add_argument('--mode', type=str, choices=['image', 'video', 'batch', 'directory'],
+                       default='directory', help='Mode: image, video, batch, or directory')
+    parser.add_argument('--image-filename', type=str, default='image.png',
+                       help='Image filename for image mode')
+    parser.add_argument('--video-filename', type=str, default='messyPath.mp4',
+                       help='Video filename for video mode')
+    parser.add_argument('--zip-filename', type=str, default='hallway_images.zip',
+                       help='Zip filename for batch mode')
+    parser.add_argument('--image-dir', type=str, default='test_images',
+                       help='Image directory for directory mode')
+    parser.add_argument('--output-file', type=str, default='testing_documentation/hallway_images.txt',
+                       help='Output file path for batch and directory modes')
+    parser.add_argument('--poll-interval', type=float, default=4.0,
+                       help='Poll interval in seconds for video/batch/directory modes')
     
-    # For image mode:
-    IMAGE_FILENAME = "image.png"
+    args = parser.parse_args()
     
-    # For video mode:
-    VIDEO_FILENAME = "messyPath.mp4"
-    POLL_INTERVAL = 4.0 
-    
-    # For batch mode (zip file):
-    ZIP_FILENAME = "hallway_images.zip"  # Place your zip file in the project root
-    OUTPUT_FILE = "testing_documentation/hallway_images.txt"
-    
-    # For directory mode:
-    IMAGE_DIR = "test_images"  # Directory containing JPG images
+    MODE = args.mode
+    IMAGE_FILENAME = args.image_filename
+    VIDEO_FILENAME = args.video_filename
+    ZIP_FILENAME = args.zip_filename
+    IMAGE_DIR = args.image_dir
+    OUTPUT_FILE = args.output_file
+    POLL_INTERVAL = args.poll_interval
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
@@ -643,8 +693,32 @@ def main():
             # Send SMS alert if hazard detected
             if result.get("hazard_detected", False):
                 send_sms_alert(result)
+            
+            # Output JSON results for frontend
+            json_result = {
+                "mode": "image",
+                "images": [{
+                    "image_path": image_path,
+                    "image_filename": IMAGE_FILENAME,
+                    "result": result
+                }]
+            }
+            print("\nJSON_RESULTS_START:")
+            print(json.dumps(json_result))
+            print("JSON_RESULTS_END")
         except Exception as e:
             print(f"Error: {e}")
+            json_result = {
+                "mode": "image",
+                "images": [{
+                    "image_path": image_path,
+                    "image_filename": IMAGE_FILENAME,
+                    "error": str(e)
+                }]
+            }
+            print("\nJSON_RESULTS_START:")
+            print(json.dumps(json_result))
+            print("JSON_RESULTS_END")
             sys.exit(1)
     
     elif MODE == "video":
@@ -671,9 +745,26 @@ def main():
         print(f"Looking for zip file: {zip_path}\n")
         
         try:
-            process_zip_images(zip_path, output_file=output_path, poll_interval=POLL_INTERVAL)
+            image_results = process_zip_images(zip_path, output_file=output_path, poll_interval=POLL_INTERVAL)
+            
+            # Output JSON results for frontend
+            json_result = {
+                "mode": "batch",
+                "images": image_results
+            }
+            print("\nJSON_RESULTS_START:")
+            print(json.dumps(json_result))
+            print("JSON_RESULTS_END")
         except Exception as e:
             print(f"Error: {e}")
+            json_result = {
+                "mode": "batch",
+                "images": [],
+                "error": str(e)
+            }
+            print("\nJSON_RESULTS_START:")
+            print(json.dumps(json_result))
+            print("JSON_RESULTS_END")
             sys.exit(1)
     
     elif MODE == "directory":
@@ -694,9 +785,26 @@ def main():
         print(f"Looking for directory: {image_dir_path}\n")
         
         try:
-            process_directory_images(image_dir_path, output_file=output_path, poll_interval=POLL_INTERVAL)
+            image_results = process_directory_images(image_dir_path, output_file=output_path, poll_interval=POLL_INTERVAL)
+            
+            # Output JSON results for frontend
+            json_result = {
+                "mode": "directory",
+                "images": image_results
+            }
+            print("\nJSON_RESULTS_START:")
+            print(json.dumps(json_result))
+            print("JSON_RESULTS_END")
         except Exception as e:
             print(f"Error: {e}")
+            json_result = {
+                "mode": "directory",
+                "images": [],
+                "error": str(e)
+            }
+            print("\nJSON_RESULTS_START:")
+            print(json.dumps(json_result))
+            print("JSON_RESULTS_END")
             sys.exit(1)
     
     else:

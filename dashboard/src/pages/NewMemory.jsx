@@ -99,7 +99,25 @@ function NewMemory() {
         navigate(`/memories?patient=${patientId}`)
       }, 1500)
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to create memory')
+      console.error('Error creating memory:', err)
+      
+      // Extract error message from various possible response formats
+      let errorMessage = 'Failed to create memory'
+      
+      if (err.response) {
+        // Try different possible error formats
+        errorMessage = err.response.data?.detail || 
+                      err.response.data?.error || 
+                      err.response.data?.message ||
+                      err.response.statusText ||
+                      `Server error (${err.response.status})`
+      } else if (err.request) {
+        errorMessage = 'Unable to connect to server. Please check if the API server is running.'
+      } else {
+        errorMessage = err.message || 'An unexpected error occurred'
+      }
+      
+      setError(errorMessage)
     } finally {
       setSaving(false)
     }

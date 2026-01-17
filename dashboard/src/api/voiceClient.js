@@ -31,9 +31,13 @@ export const voiceApi = {
   },
 
   // Trigger hazard detection
-  triggerHazardDetection: async () => {
-    const response = await voiceApiClient.post('/hazard-detection', {}, {
-      timeout: 120000, // 2 minute timeout for hazard detection
+  triggerHazardDetection: async (mode, options = {}) => {
+    const payload = {
+      mode: mode || 'directory',
+      ...options
+    };
+    const response = await voiceApiClient.post('/hazard-detection', payload, {
+      timeout: 300000, // 5 minute timeout for hazard detection (videos can take longer)
     });
     return response.data;
   },
