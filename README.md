@@ -1,5 +1,7 @@
 # FORTif.ai: An AI assistant for Independent Safe Senior Living 
-In partnership with [WAT.ai](https://watai.ca/#/) and [UBIlab](https://uwaterloo.ca/ubiquitous-health-technology-lab/))
+
+## Partners
+In partnership with [WAT.ai](https://watai.ca/#/) and [UBIlab](https://uwaterloo.ca/ubiquitous-health-technology-lab/)
 
 ## TPMS and Their Contact Info
 
