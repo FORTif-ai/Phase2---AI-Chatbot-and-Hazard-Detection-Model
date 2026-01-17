@@ -40,6 +40,42 @@ As the global population ages, many seniors face significant challenges in maint
 
 The goal of this project is to address these challenges by providing seniors with an AI-driven assistant that promotes both safety and independence. By using computer vision for hazard detection, gait analysis for fall vulnerability assessment, and a user-friendly chatbot for daily reminders and check-ins, we hope to ensure that seniors can confidently navigate their living spaces while staying on top of their personal care routines. This project aims to reduce the risk of accidents, improve daily living, and empower seniors to maintain their autonomy in a safe, supportive environment.
 
+# The Team
+
+## Technical Project Managers
+
+### Lino Kee
+
+[Lino Kee](https://www.linkedin.com/in/linokee0423/) is an undergraduate student at the University of Waterloo studying Honours Management Engineering. He brings academic and practical co-op experience in project management, data analysis, automation development, quality assurance, business platform management, and software development. Lino leads the development of the computer-vision–driven Hazard Detection model and oversees the overall architecture and delivery of the FORTif.ai tool. He’s happy to answer questions about project scope, timeline, and the long-term vision for FORTif.ai.
+
+### Edson Takei
+
+[Edson Takei](https://www.linkedin.com/in/edsontakei/) is un undergraduate student at York University studying Software Engineering in the Big Data stream. Edson has academic and applied experience in data analysis, genAI, bioinformatics and digital public health having also pursued research opportunities at the University of Waterloo and McGill University. His work includes leveraging large language models (LLMs) in healthcare to automate manual processes, as well as evaluating the effectiveness of LLMs in public health from both technical and policy-oriented perspectives. Edson leads the development of the AI chatbot subteam of FORTif.ai and oversees the overall architecture and delivery of the FORTif.ai tool. He’s happy to answer questions about project scope, timeline, and the long-term vision for FORTif.ai. 
+
+## Core Members
+
+### Michelle Steen - Technical Team Lead
+
+### Spencer Spiegelman - Research Team Lead
+
+### Chris Jackson - Hazard Detection Developer
+
+### Akil Giri - Hazard Detection Developer
+
+### Rohan Tuli  - Hazard Detection Developer
+
+### Sarvesh Sekar - Hazard Detection Developer
+
+### Jessi Huang - AI Chatbot Developer
+
+### Mohammed Elshrief - AI Chatbot Developer
+
+### Marco Lee - Technical Researcher 
+
+### Sidney Liu - Technical Researcher
+
+### Meghana Yarlagadda - Technical Researcher
+
 ## 🎯 Project Overview
 
 Fortif.ai is a multi-component system that provides:
