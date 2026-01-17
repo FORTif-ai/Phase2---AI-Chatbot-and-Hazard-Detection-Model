@@ -8,9 +8,11 @@ from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
 import weaviate
+import os
 from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -22,7 +24,9 @@ from models import (
     IngestRequest,
     IngestResponse,
     HealthResponse,
-    ErrorResponse
+    ErrorResponse,
+    TranscriptionRequest,
+    TranscriptionResponse
 )
 from auth import verify_api_key
 from rag_pipeline import RAGPipeline
@@ -31,6 +35,7 @@ from ingest import (
     ensure_collection_exists,
     process_and_ingest_data
 )
+from routers import memories_router
 
 # Configure logging
 logging.basicConfig(
@@ -139,7 +144,7 @@ async def http_exception_handler(request, exc):
             error=exc.detail,
             detail=str(exc.detail),
             path=str(request.url.path),
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc).isoformat()
         ).model_dump()
     )
 
@@ -154,16 +159,29 @@ async def general_exception_handler(request, exc):
             error="Internal Server Error",
             detail="An unexpected error occurred. Please try again later.",
             path=str(request.url.path),
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc).isoformat()
         ).model_dump()
     )
 
+
+# Mount static files directory
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+    logger.info(f"Static files directory mounted: {static_dir}")
+
+# Include routers
+app.include_router(memories_router)
+logger.info("✓ Dashboard router included")
 
 # === API Endpoints ===
 
 @app.get("/", tags=["General"])
 async def root():
-    """Root endpoint with API information."""
+    """Root endpoint - serves the web front-end."""
+    index_path = os.path.join(static_dir, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
     return {
         "name": "Fortif.ai RAG API",
         "version": settings.api_version,
@@ -361,6 +379,176 @@ async def ingest_memory(request: IngestRequest):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Ingestion failed: {str(e)}"
+        )
+
+
+@app.post(
+    "/api/transcribe",
+    response_model=TranscriptionResponse,
+    tags=["Voice"],
+    dependencies=[Depends(verify_api_key)]
+)
+async def transcribe_audio(request: TranscriptionRequest):
+    """
+    Transcribe audio using Whisper model.
+    
+    **Authentication**: Requires X-API-Key header (if API_KEY is set in .env)
+    
+    **Example Request**:
+    ```json
+    {
+        "audio_data": "base64_encoded_audio_string",
+        "format": "wav",
+        "patient_id": "patient_123"
+    }
+    ```
+    """
+    try:
+        import base64
+        import tempfile
+        import os
+        import whisper
+        
+        # Add ffmpeg to PATH if it's installed via winget but not in system PATH
+        import shutil
+        ffmpeg_exe = shutil.which("ffmpeg")
+        if not ffmpeg_exe:
+            # Try to find ffmpeg in common winget installation location
+            user_profile = os.environ.get("USERPROFILE", "")
+            winget_ffmpeg_pattern = os.path.join(
+                user_profile,
+                "AppData", "Local", "Microsoft", "WinGet", "Packages",
+                "Gyan.FFmpeg_*", "*", "bin"
+            )
+            import glob
+            ffmpeg_dirs = glob.glob(winget_ffmpeg_pattern)
+            if ffmpeg_dirs and os.path.exists(os.path.join(ffmpeg_dirs[0], "ffmpeg.exe")):
+                ffmpeg_path = ffmpeg_dirs[0]
+                current_path = os.environ.get("PATH", "")
+                if ffmpeg_path not in current_path:
+                    os.environ["PATH"] = f"{ffmpeg_path};{current_path}"
+                    logger.info(f"Added ffmpeg to PATH: {ffmpeg_path}")
+        
+        logger.info(f"Transcription request received (format: {request.format}, patient_id: {request.patient_id or 'none'})")
+        
+        # Decode base64 audio
+        try:
+            audio_bytes = base64.b64decode(request.audio_data)
+            logger.info(f"Decoded audio: {len(audio_bytes)} bytes")
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid base64 audio data: {str(e)}"
+            )
+        
+        if len(audio_bytes) == 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Audio data is empty"
+            )
+        
+        # Check minimum file size
+        if len(audio_bytes) < 100:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Audio file too small. Please record longer audio."
+            )
+        
+        # Create temporary file
+        file_ext = request.format.lower()
+        if file_ext not in ['wav', 'webm', 'mp3', 'flac', 'ogg', 'm4a']:
+            file_ext = 'wav'  # Default to wav
+        
+        with tempfile.NamedTemporaryFile(delete=False, suffix=f'.{file_ext}') as temp_file:
+            temp_file.write(audio_bytes)
+            temp_file_path = temp_file.name
+        
+        transcript_text = ""
+        detected_language = None
+        
+        try:
+            logger.info(f"Transcribing audio file: {temp_file_path} ({len(audio_bytes)} bytes)")
+            
+            # Load Whisper model (using base model for speed, can be changed)
+            model_name = "base"  # Options: tiny, base, small, medium, large
+            logger.info(f"Loading Whisper model: {model_name}")
+            model = whisper.load_model(model_name)
+            
+            # Transcribe
+            logger.info("Transcribing audio...")
+            result = model.transcribe(temp_file_path)
+            
+            transcript_text = result["text"].strip()
+            detected_language = result.get("language", "unknown")
+            
+            logger.info(f"Transcription successful: {len(transcript_text)} characters, language: {detected_language}")
+            
+            if not transcript_text:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Transcription returned empty. The audio might be too quiet, too short, or contain no speech."
+                )
+                
+        except ImportError:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="Whisper not installed. Please run: pip install openai-whisper"
+            )
+        except FileNotFoundError as e:
+            if "ffmpeg" in str(e).lower() or "winerror 2" in str(e).lower():
+                logger.error(f"ffmpeg not found: {e}")
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail=(
+                        "ffmpeg is required for audio transcription but was not found. "
+                        "Please install ffmpeg:\n"
+                        "1. Download from: https://ffmpeg.org/download.html\n"
+                        "2. Or use: winget install ffmpeg\n"
+                        "3. Or use: choco install ffmpeg\n"
+                        "4. After installing, restart the server"
+                    )
+                )
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail=f"File not found: {str(e)}"
+                )
+        except Exception as e:
+            logger.error(f"Transcription failed: {e}", exc_info=True)
+            error_msg = str(e)
+            if "ffmpeg" in error_msg.lower():
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail=(
+                        "ffmpeg is required for audio transcription. "
+                        "Please install ffmpeg and restart the server. "
+                        "Use: winget install ffmpeg"
+                    )
+                )
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Transcription failed: {error_msg}"
+            )
+        finally:
+            # Clean up temporary file
+            try:
+                if os.path.exists(temp_file_path):
+                    os.unlink(temp_file_path)
+            except Exception as e:
+                logger.warning(f"Failed to delete temp file: {e}")
+        
+        return TranscriptionResponse(
+            text=transcript_text,
+            language=detected_language
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error in transcription: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Transcription failed: {str(e)}"
         )
 
 

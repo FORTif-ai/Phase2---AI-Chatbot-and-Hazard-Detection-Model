@@ -62,6 +62,12 @@ class Settings(BaseSettings):
         default=None,
         description="API key for authentication (optional for development)"
     )
+    
+    # === OpenAI Configuration (optional, for future use) ===
+    openai_api_key: Optional[str] = Field(
+        default=None,
+        description="OpenAI API key (optional, for future transcription features)"
+    )
     api_title: str = Field(
         default="Fortif.ai RAG API",
         description="API title"
@@ -77,6 +83,30 @@ class Settings(BaseSettings):
     api_url: str = Field(
         default="http://localhost:8000",
         description="API URL"
+    )
+
+    # === JWT Configuration ===
+    jwt_secret_key: str = Field(
+        default="your-secret-key-change-in-production",
+        description="Secret key for JWT token signing (should be changed in production)"
+    )
+    jwt_algorithm: str = Field(
+        default="HS256",
+        description="JWT signing algorithm"
+    )
+    access_token_expire_minutes: int = Field(
+        default=30,
+        description="Access token expiration time in minutes"
+    )
+    refresh_token_expire_days: int = Field(
+        default=7,
+        description="Refresh token expiration time in days"
+    )
+
+    # === Database Configuration ===
+    sqlite_database_path: str = Field(
+        default="database/fortifai.db",
+        description="SQLite database file path (relative to rag directory)"
     )
 
     # === Ingestion Configuration ===
