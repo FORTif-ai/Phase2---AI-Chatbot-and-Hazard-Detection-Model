@@ -14,6 +14,9 @@ function Navbar() {
         <Link to="/memories" className="navbar-link">
           Memories
         </Link>
+        <Link to="/voice" className="navbar-link">
+          Voice Commands
+        </Link>
       </div>
     </nav>
   )

@@ -1,0 +1,15 @@
+{
+  "name": "fortifai-voice-system",
+  "version": "1.0.0",
+  "description": "Fortif.ai Voice Command and Hazard Detection System",
+  "scripts": {
+    "start": "concurrently -n \"RAG,PYTHON,NODE,REACT\" -c \"cyan,yellow,green,blue\" \"cd rag && python main.py\" \"python web_ui.py\" \"cd server && npm start\" \"cd dashboard && npm run dev\"",
+    "start:rag": "cd rag && python main.py",
+    "start:python": "python web_ui.py",
+    "start:node": "cd server && npm start",
+    "start:dashboard": "cd dashboard && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -67,3 +67,10 @@ slowapi
 python-jose[cryptography]
 passlib[bcrypt]
 python-multipart
+
+# Web UI
+jinja2
+uvicorn[standard]
+whisper
+SpeechRecognition
+keyboard
