@@ -1,4 +1,79 @@
-# Fortif.ai - AI Chatbot and Hazard Detection Model
+# FORTif.ai: An AI assistant for Independent Safe Senior Living 
+
+## Partners
+In partnership with [WAT.ai](https://watai.ca/#/) and [UBIlab](https://uwaterloo.ca/ubiquitous-health-technology-lab/)
+
+## TPMS and Their Contact Info
+
+### Lino Kee
+- **LinkedIn:** https://www.linkedin.com/in/linokee0423/  
+- **Email:** guitarkinglino@gmail.com  
+- **GitHub:** d-lino-kee  
+- **Discord:** dalinoman  
+
+### Edson Takei
+- **LinkedIn:** https://www.linkedin.com/in/edsontakei/  
+- **Email:** etakei@my.yorku.ca  
+- **GitHub:** edsontakei  
+- **Discord:** luketonbeleu  
+
+## Ultimate Objective
+FORTif.ai is an AI-driven companion that empowers seniors to live independently by merging proactive safety monitoring with tailored daily support. Using a computer-vision–powered Hazard Detection model, it continuously scans the home for potential risks—like spills, cluttered pathways, and tripping hazards—and offers clear, actionable recommendations to address them. At the same time, an intuitive AI chatbot engages users in friendly, proactive conversations, providing timely medication and appointment reminders, personalized wellness check-ins, and empathetic responses to questions or concerns. With built-in voice-to-text capabilities and real-time safety insights, FORTif.ai delivers a seamless, user-centric experience designed to enhance home safety, streamline everyday routines, and foster lasting independence for seniors.
+
+## Project Goals
+
+1. 🤖 **AI Chatbot (LLM)**: Design and deploy a robust conversational assistant  
+   - Develop reliable voice-to-text transcription with built-in quality control  
+   - Implement an action-oriented interface  
+   - Ensure LLM responses are accurate, relevant, and aligned with senior-friendly language  
+   - Integrate the chatbot with the back-end Hazard Detection system for contextual alerts  
+
+2. ⚠️ **Hazard Detection**: Build and validate a vision-based model for home-hazard identification  
+   - **Subgoal 1:** Model development to detect obstacles along predefined walkways  
+   - **Subgoal 2:** Define performance metrics and risk thresholds (e.g., model accuracy and obstacle risk scoring)    
+   - Quantify obstacle count and relative size for risk prioritization  
+   - Establish a 70:30 training–testing data split to evaluate generalization 
+  
+## Background
+As the global population ages, many seniors face significant challenges in maintaining their independence while ensuring their safety. Common risks include falls, accidents at home due to environmental hazards, and difficulties in managing daily tasks, such as taking medications or attending appointments. These issues often lead to a decline in quality of life and can result in a need for constant caregiver assistance, which is not always feasible or sustainable.
+
+The goal of this project is to address these challenges by providing seniors with an AI-driven assistant that promotes both safety and independence. By using computer vision for hazard detection, gait analysis for fall vulnerability assessment, and a user-friendly chatbot for daily reminders and check-ins, we hope to ensure that seniors can confidently navigate their living spaces while staying on top of their personal care routines. This project aims to reduce the risk of accidents, improve daily living, and empower seniors to maintain their autonomy in a safe, supportive environment.
+
+# The Team
+
+## Technical Project Managers
+
+### Lino Kee
+
+[Lino Kee](https://www.linkedin.com/in/linokee0423/) is an undergraduate student at the University of Waterloo studying Honours Management Engineering. He brings academic and practical co-op experience in project management, data analysis, automation development, quality assurance, business platform management, and software development. Lino leads the development of the computer-vision–driven Hazard Detection model and oversees the overall architecture and delivery of the FORTif.ai tool. He’s happy to answer questions about project scope, timeline, and the long-term vision for FORTif.ai.
+
+### Edson Takei
+
+[Edson Takei](https://www.linkedin.com/in/edsontakei/) is un undergraduate student at York University studying Software Engineering in the Big Data stream. Edson has academic and applied experience in data analysis, genAI, bioinformatics and digital public health having also pursued research opportunities at the University of Waterloo and McGill University. His work includes leveraging large language models (LLMs) in healthcare to automate manual processes, as well as evaluating the effectiveness of LLMs in public health from both technical and policy-oriented perspectives. Edson leads the development of the AI chatbot subteam of FORTif.ai and oversees the overall architecture and delivery of the FORTif.ai tool. He’s happy to answer questions about project scope, timeline, and the long-term vision for FORTif.ai. 
+
+## Core Members
+
+### Michelle Steen - Technical Team Lead
+
+### Spencer Spiegelman - Research Team Lead
+
+### Chris Jackson - Hazard Detection Developer
+
+### Akil Giri - Hazard Detection Developer
+
+### Rohan Tuli  - Hazard Detection Developer
+
+### Sarvesh Sekar - Hazard Detection Developer
+
+### Jessi Huang - AI Chatbot Developer
+
+### Mohammed Elshrief - AI Chatbot Developer
+
+### Marco Lee - Technical Researcher 
+
+### Sidney Liu - Technical Researcher
+
+### Meghana Yarlagadda - Technical Researcher
 
 
 ## 🎯 Project Overview
@@ -603,34 +678,3 @@ Full API documentation available at: `http://localhost:8000/docs`
 - `POST /api/process-text` - Proxy to FastAPI
 - `POST /api/hazard-detection` - Trigger hazard detection
 - `GET /api/hazard-images/:filename` - Serve hazard detection images
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📝 License
-
-[Add your license information here]
-
-## 🙏 Acknowledgments
-
-- Google Gemini AI for LLM and embeddings
-- Weaviate for vector database
-- OpenAI Whisper for speech transcription
-- React and Vite for frontend framework
-- FastAPI and Express for backend frameworks
-
-## 📞 Support
-
-For issues, questions, or contributions:
-- Open an issue on GitHub
-- Check existing documentation
-- Review troubleshooting section above
-
----
-
-**Built with ❤️ for AI-powered healthcare assistance**
