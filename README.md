@@ -1,5 +1,5 @@
 # FORTif.ai: An AI assistant for Independent Safe Senior Living 
-In partnership with [WAT.ai](https://watai.ca/#/)
+In partnership with [WAT.ai](https://watai.ca/#/) and [UBIlab]([https://watai.ca/#/](https://uwaterloo.ca/ubiquitous-health-technology-lab/))
 
 ## TPMS and Their Contact Info
 
@@ -75,6 +75,7 @@ The goal of this project is to address these challenges by providing seniors wit
 ### Sidney Liu - Technical Researcher
 
 ### Meghana Yarlagadda - Technical Researcher
+
 
 ## 🎯 Project Overview
 
@@ -678,34 +679,3 @@ Full API documentation available at: `http://localhost:8000/docs`
 - `POST /api/process-text` - Proxy to FastAPI
 - `POST /api/hazard-detection` - Trigger hazard detection
 - `GET /api/hazard-images/:filename` - Serve hazard detection images
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📝 License
-
-[Add your license information here]
-
-## 🙏 Acknowledgments
-
-- Google Gemini AI for LLM and embeddings
-- Weaviate for vector database
-- OpenAI Whisper for speech transcription
-- React and Vite for frontend framework
-- FastAPI and Express for backend frameworks
-
-## 📞 Support
-
-For issues, questions, or contributions:
-- Open an issue on GitHub
-- Check existing documentation
-- Review troubleshooting section above
-
----
-
-**Built with ❤️ for AI-powered healthcare assistance**
