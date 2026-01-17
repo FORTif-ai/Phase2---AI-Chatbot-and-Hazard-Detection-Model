@@ -27,12 +27,12 @@ async def listen_for_commands(patient_id_input: str):
             while True:
                 print(" Press 's' to speak (10 s). Press 'q' to quit. Press 'h' for hazard detection")
                 key = keyboard.read_key()
-                if key == 12:
-                #if key.lower() == "q": # 'q' on Mac keyboard
+                #if key == 12:
+                if key.lower() == "q": # 'q' on Mac keyboard
                     print("Quitting…")
                     break
-                if key == 1:
-                #if key.lower() == "s": # 's' on Mac keyboard
+                #if key == 1:
+                if key.lower() == "s": # 's' on Mac keyboard
 
                     print("Capturing audio segment…")
 

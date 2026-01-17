@@ -62,6 +62,12 @@ class Settings(BaseSettings):
         default=None,
         description="API key for authentication (optional for development)"
     )
+    
+    # === OpenAI Configuration (optional, for future use) ===
+    openai_api_key: Optional[str] = Field(
+        default=None,
+        description="OpenAI API key (optional, for future transcription features)"
+    )
     api_title: str = Field(
         default="Fortif.ai RAG API",
         description="API title"
@@ -79,21 +85,15 @@ class Settings(BaseSettings):
         description="API URL"
     )
 
-    # === Ingestion Configuration ===
-    chunk_size: int = Field(default=500, description="Text chunk size")
-    chunk_overlap: int = Field(default=50, description="Text chunk overlap")
-    default_batch_size: int = Field(default=100, description="Batch size for ingestion")
-
-    # === Retry Configuration ===
-    max_retries: int = Field(default=3, description="Maximum retry attempts")
-    retry_delay: int = Field(default=2, description="Retry delay in seconds")
-
-    # === JWT Authentication Configuration ===
+    # === JWT Configuration ===
     jwt_secret_key: str = Field(
-        default="fortifai-dev-secret-change-in-production",
-        description="Secret key for JWT token signing (change in production)"
+        default="your-secret-key-change-in-production",
+        description="Secret key for JWT token signing (should be changed in production)"
     )
-    jwt_algorithm: str = Field(default="HS256", description="JWT signing algorithm")
+    jwt_algorithm: str = Field(
+        default="HS256",
+        description="JWT signing algorithm"
+    )
     access_token_expire_minutes: int = Field(
         default=30,
         description="Access token expiration time in minutes"
@@ -103,11 +103,20 @@ class Settings(BaseSettings):
         description="Refresh token expiration time in days"
     )
 
-    # === Dashboard Database Configuration ===
+    # === Database Configuration ===
     sqlite_database_path: str = Field(
-        default="fortifai.db",
+        default="database/fortifai.db",
         description="SQLite database file path (relative to rag directory)"
     )
+
+    # === Ingestion Configuration ===
+    chunk_size: int = Field(default=500, description="Text chunk size")
+    chunk_overlap: int = Field(default=50, description="Text chunk overlap")
+    default_batch_size: int = Field(default=100, description="Batch size for ingestion")
+
+    # === Retry Configuration ===
+    max_retries: int = Field(default=3, description="Maximum retry attempts")
+    retry_delay: int = Field(default=2, description="Retry delay in seconds")
 
     @field_validator("google_api_key")
     @classmethod

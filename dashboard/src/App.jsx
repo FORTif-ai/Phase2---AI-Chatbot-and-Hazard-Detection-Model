@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard'
 import Memories from './pages/Memories'
 import MemoryDetail from './pages/MemoryDetail'
 import NewMemory from './pages/NewMemory'
+import VoiceCommand from './pages/VoiceCommand'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="memories" element={<Memories />} />
         <Route path="memories/new" element={<NewMemory />} />
         <Route path="memories/:uuid" element={<MemoryDetail />} />
+        <Route path="voice" element={<VoiceCommand />} />
       </Route>
     </Routes>
   )

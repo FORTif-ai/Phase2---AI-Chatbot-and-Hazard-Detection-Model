@@ -156,14 +156,19 @@ class MemoryService:
                     ingested_at=props.get("ingested_at", "")
                 ))
 
-            # Get total count for pagination
-            count_response = collection.aggregate.over_all(
-                filters=query_filter,
-                total_count=True
-            )
-            total_count = count_response.total_count or 0
-
-            has_more = offset + len(memories) < total_count
+            # Get total count for pagination (only if we need it)
+            # If we got fewer results than requested, we know there are no more
+            if len(memories) < per_page:
+                total_count = offset + len(memories)
+                has_more = False
+            else:
+                # Only query total count if we might have more pages
+                count_response = collection.aggregate.over_all(
+                    filters=query_filter,
+                    total_count=True
+                )
+                total_count = count_response.total_count or 0
+                has_more = offset + len(memories) < total_count
 
             logger.info(
                 f"Listed {len(memories)} memories for patient {patient_id} "
@@ -303,6 +308,7 @@ class MemoryService:
     def get_memory_stats(self, patient_id: str) -> Dict[str, Any]:
         """
         Get memory statistics for a patient.
+        Optimized to fetch all memories once and calculate stats in-memory.
 
         Args:
             patient_id: Patient identifier
@@ -313,40 +319,45 @@ class MemoryService:
         try:
             collection = self._get_collection()
 
-            # Total count
+            # Build filter
             query_filter = Filter.by_property("patient_id").equal(patient_id)
-            total_response = collection.aggregate.over_all(
+
+            # Fetch all memories for this patient (with reasonable limit for stats)
+            # We'll sample up to 1000 memories for stats calculation
+            response = collection.query.fetch_objects(
                 filters=query_filter,
-                total_count=True
+                limit=1000,  # Reasonable limit for stats
+                return_metadata=MetadataQuery(creation_time=True)
             )
 
-            # Topic distribution (approximate)
-            topics = ["daily_routine", "positive_memory", "family_history",
-                     "health_info", "preferences", "life_events"]
+            # Calculate stats from fetched objects
+            total_count = len(response.objects)
             topic_counts = {}
-
-            for topic in topics:
-                topic_filter = query_filter & Filter.by_property("topic").equal(topic)
-                topic_response = collection.aggregate.over_all(
-                    filters=topic_filter,
-                    total_count=True
-                )
-                topic_counts[topic] = topic_response.total_count or 0
-
-            # Emotion distribution
-            emotions = ["positive", "negative", "neutral", "mixed", "unknown"]
             emotion_counts = {}
 
-            for emotion in emotions:
-                emotion_filter = query_filter & Filter.by_property("emotion").equal(emotion)
-                emotion_response = collection.aggregate.over_all(
-                    filters=emotion_filter,
+            for obj in response.objects:
+                props = obj.properties
+                
+                # Count topics
+                topic = props.get("topic", "other")
+                topic_counts[topic] = topic_counts.get(topic, 0) + 1
+                
+                # Count emotions
+                emotion = props.get("emotion", "unknown")
+                emotion_counts[emotion] = emotion_counts.get(emotion, 0) + 1
+
+            # If we hit the limit, get actual total count (but only if needed)
+            if total_count >= 1000:
+                total_response = collection.aggregate.over_all(
+                    filters=query_filter,
                     total_count=True
                 )
-                emotion_counts[emotion] = emotion_response.total_count or 0
+                total_count = total_response.total_count or total_count
+
+            logger.info(f"Calculated stats for patient {patient_id}: {total_count} total memories")
 
             return {
-                "total_memories": total_response.total_count or 0,
+                "total_memories": total_count,
                 "topics": topic_counts,
                 "emotions": emotion_counts
             }

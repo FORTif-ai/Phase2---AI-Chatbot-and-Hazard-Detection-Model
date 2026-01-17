@@ -201,7 +201,22 @@ class ErrorResponse(BaseModel):
     error: str = Field(..., description="Error type")
     detail: str = Field(..., description="Detailed error message")
     path: Optional[str] = Field(None, description="Request path that caused error")
-    timestamp: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
-        description="Error timestamp"
+    timestamp: str = Field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat(),
+        description="Error timestamp (ISO format)"
     )
+
+
+class TranscriptionRequest(BaseModel):
+    """Request model for audio transcription."""
+    
+    audio_data: str = Field(..., description="Base64-encoded audio data")
+    format: str = Field(default="wav", description="Audio format (wav, webm, mp3, etc.)")
+    patient_id: Optional[str] = Field(None, description="Optional patient ID for personalized transcription")
+
+
+class TranscriptionResponse(BaseModel):
+    """Response model for transcription endpoint."""
+    
+    text: str = Field(..., description="Transcribed text")
+    language: Optional[str] = Field(None, description="Detected language")
