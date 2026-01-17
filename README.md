@@ -17,8 +17,8 @@ In partnership with [WAT.ai](https://watai.ca/#/) and [UBIlab](https://uwaterloo
 - **GitHub:** edsontakei  
 - **Discord:** luketonbeleu  
 
-## Ultimate Objective
-FORTif.ai is an AI-driven tool that empowers seniors to live independently by merging proactive safety monitoring with tailored daily support. Using a LLM–powered Hazard Detection model, it continuously scans the home for potential risks—like spills, cluttered pathways, and tripping hazards—and offers clear, actionable recommendations to address them. At the same time, an intuitive AI chatbot engages users in friendly, proactive conversations, providing timely medication and appointment reminders, personalized wellness check-ins, and empathetic responses to questions or concerns. With built-in voice-to-text capabilities and real-time safety insights, FORTif.ai delivers a seamless, user-centric experience designed to enhance home safety, streamline everyday routines, and foster lasting independence for seniors.
+## About the Project
+FORTif.ai is an AI-driven tool that empowers seniors to live independently by merging proactive safety monitoring with tailored daily support. Using a LLM–powered Hazard Detection model, it continuously scans the home for potential risks—like spills, cluttered pathways, and tripping hazards—and offers clear, actionable recommendations to address them. At the same time, an intuitive AI chatbot engages users in friendly, proactive conversations, providing timely medication and appointment reminders, personalized wellness check-ins, and empathetic responses to questions or concerns. With built-in voice-to-text capabilities and real-time safety insights, FORTif.ai delivers a seamless, user-centric experience designed to enhance home safety, streamline everyday routines, and foster lasting independence for seniors. 
 
 ## Project Goals
 
