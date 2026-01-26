@@ -16,12 +16,88 @@ from PIL import Image
 from google import genai
 from google.genai import types
 from twilio.rest import Client
+from difflib import SequenceMatcher
 
 load_dotenv()  # loads .env in current dir
 
 # SMS Configuration
 SMS_ENABLED = True  # Set to False to disable SMS notifications
 SMS_TO_NUMBER = "+13657780651"  # Target phone number
+
+
+class HazardMemory:
+    """
+    Track notified hazards to prevent duplicate SMS notifications.
+    Uses fuzzy string matching on hazard type + location.
+    """
+    
+    def __init__(self, cooldown_seconds: float = 3600.0, similarity_threshold: float = 0.75):
+        """
+        Initialize hazard memory.
+        
+        Args:
+            cooldown_seconds: Time in seconds before a similar hazard can be notified again (default: 1 hour)
+            similarity_threshold: Minimum similarity ratio (0-1) to consider hazards as duplicates (default: 0.75)
+        """
+        self._memory: dict[str, float] = {}  # signature -> timestamp
+        self._cooldown = cooldown_seconds
+        self._threshold = similarity_threshold
+    
+    def _normalize(self, s: str) -> str:
+        """Normalize string to lowercase and strip whitespace."""
+        return s.lower().strip() if s else ""
+    
+    def _make_signature(self, hazard: dict) -> str:
+        """Create signature from normalized hazard type and location."""
+        hazard_type = self._normalize(hazard.get("type", ""))
+        location = self._normalize(hazard.get("location", ""))
+        return f"{hazard_type}|{location}"
+    
+    def _find_similar(self, signature: str) -> str | None:
+        """
+        Find existing signature with >= similarity_threshold match.
+        
+        Returns:
+            The existing signature if found, None otherwise.
+        """
+        for existing_sig in self._memory:
+            ratio = SequenceMatcher(None, signature, existing_sig).ratio()
+            if ratio >= self._threshold:
+                return existing_sig
+        return None
+    
+    def should_notify(self, hazard: dict) -> bool:
+        """
+        Check if a hazard should trigger a notification.
+        
+        Returns:
+            True if hazard is new or cooldown has expired, False if duplicate within cooldown.
+        """
+        signature = self._make_signature(hazard)
+        similar_sig = self._find_similar(signature)
+        
+        if similar_sig is None:
+            # New hazard, never seen before
+            return True
+        
+        # Check if cooldown has expired
+        last_notified = self._memory.get(similar_sig, 0)
+        elapsed = time.time() - last_notified
+        return elapsed >= self._cooldown
+    
+    def record_notification(self, hazard: dict) -> None:
+        """Record that a notification was sent for this hazard."""
+        signature = self._make_signature(hazard)
+        similar_sig = self._find_similar(signature)
+        
+        # Use existing similar signature if found, otherwise use new signature
+        key = similar_sig if similar_sig else signature
+        self._memory[key] = time.time()
+
+
+# Global hazard memory for deduplication
+hazard_memory = HazardMemory(cooldown_seconds=3600.0)  # 1 hour cooldown
+
 
 HAZARD_PROMPT = """You are a safety inspector.
 
@@ -195,6 +271,11 @@ def send_sms_alert(hazard_data: dict, frame_number: int = None, timestamp: float
     
     # Send one SMS per hazard
     for hazard in hazards:
+        # Check for duplicate hazard (deduplication)
+        if not hazard_memory.should_notify(hazard):
+            print(f"⏭️ Skipping duplicate hazard: {hazard.get('type')} at {hazard.get('location')}")
+            continue
+        
         try:
             # Use AI-generated SMS text if available, otherwise fallback
             sms_text = hazard.get('sms_text')
@@ -215,6 +296,9 @@ def send_sms_alert(hazard_data: dict, frame_number: int = None, timestamp: float
             )
             
             print(f"SMS sent: '{message}' (SID: {sms.sid})")
+            
+            # Record successful notification for deduplication
+            hazard_memory.record_notification(hazard)
             
         except Exception as e:
             print(f"Failed to send SMS: {e}")
