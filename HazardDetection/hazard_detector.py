@@ -107,16 +107,19 @@ Respond ONLY in this JSON shape:
 
 {
   "hazard_detected": true/false,
+  "hazard_detected_confidence": 0-100 (confidence score as percentage for hazard_detected, where 100 is highest confidence),
   "hazards": [
     {
       "type": "identification of the hazard (e.g. wet floor, exposed wires, pointed furniture edges, sharp table corners, bed corners, etc.)",
       "location": "specific location respective to the room/fixed objects, not respective to the person. Do not mention the person in the location (e.g. left side of door, second last step, corner of table, edge of bed)",
-      "severity": "low/medium/high" (consider both how dangerous the hazard is and its position in the navigation path. Sharp edges and pointed corners in walkways should be flagged as hazards)",
+      "severity": "low/medium/high" (consider both how dangerous the hazard is and its position in the navigation path. Sharp edges and pointed corners in walkways should be flagged as hazards),
+      "confidence": 0-100 (confidence score as percentage for this specific hazard detection, where 100 is highest confidence),
       "details": "extra context if useful",
       "sms_text": "ultra-concise SMS alert text in format: 'hazard near location' (max 50 chars, e.g. 'wet floor near hallway entrance', 'sharp table edge near wall')"
     }
   ],
   "people_detected": true/false,
+  "people_detected_confidence": 0-100 (confidence score as percentage for people_detected, where 100 is highest confidence),
   "summary": "short 1-2 sentence summary"
 }
 
@@ -127,6 +130,7 @@ Rules:
 - Detect hazards even when no people are visible in the image - the goal is to identify potential risks in the environment.
 - Do NOT wrap the JSON in markdown.
 - sms_text must be very short (max 50 chars) and describe the hazard and location concisely.
+- REQUIRED: Include confidence scores (0-100 as percentages) for hazard_detected, people_detected, and each individual hazard. Higher values indicate higher confidence in the detection.
 """
 
 def detect_hazards(image_input: str | np.ndarray, api_key: str | None = None) -> dict:
@@ -484,9 +488,17 @@ def process_zip_images(zip_path: str, output_file: str = "testing_documentation/
                         hazard = result.get("hazard_detected", False)
                         hazards = result.get("hazards", [])
                         summary = result.get("summary", "N/A")
+                        people_confidence = result.get("people_detected_confidence")
+                        hazard_confidence = result.get("hazard_detected_confidence")
                         
                         f.write(f"People Detected: {'Yes' if people else 'No'}\n")
+                        people_conf_str = _format_confidence(people_confidence)
+                        if people_conf_str:
+                            f.write(f"  Confidence: {people_conf_str}\n")
                         f.write(f"Hazard Detected: {'Yes' if hazard else 'No'}\n")
+                        hazard_conf_str = _format_confidence(hazard_confidence)
+                        if hazard_conf_str:
+                            f.write(f"  Confidence: {hazard_conf_str}\n")
                         f.write(f"Summary: {summary}\n\n")
                         
                         if hazards:
@@ -496,11 +508,21 @@ def process_zip_images(zip_path: str, output_file: str = "testing_documentation/
                                 f.write(f"    Type: {h.get('type', 'N/A')}\n")
                                 f.write(f"    Location: {h.get('location', 'N/A')}\n")
                                 f.write(f"    Severity: {h.get('severity', 'N/A')}\n")
+                                conf_str = _format_confidence(h.get('confidence'))
+                                if conf_str:
+                                    f.write(f"    Confidence: {conf_str}\n")
                                 f.write(f"    Details: {h.get('details', 'N/A')}\n")
                                 f.write(f"    SMS Text: {h.get('sms_text', 'N/A')}\n")
+                            
+                            # Classify overall hazard severity
+                            severity_level, severity_percentage = classify_hazard_severity(len(hazards))
+                            f.write(f"\nOverall Hazard Severity: {severity_level} ({severity_percentage}%)\n")
                         else:
                             f.write("Hazards Found: 0\n")
                             f.write("Status: No obstacles or hazards detected.\n")
+                            # Classify severity for no hazards case
+                            severity_level, severity_percentage = classify_hazard_severity(0)
+                            f.write(f"Overall Hazard Severity: {severity_level} ({severity_percentage}%)\n")
                     
                     f.write("\n")
                     
@@ -641,9 +663,17 @@ def process_directory_images(image_dir: str, output_file: str = "testing_documen
                     hazard = result.get("hazard_detected", False)
                     hazards = result.get("hazards", [])
                     summary = result.get("summary", "N/A")
+                    people_confidence = result.get("people_detected_confidence")
+                    hazard_confidence = result.get("hazard_detected_confidence")
                     
                     f.write(f"People Detected: {'Yes' if people else 'No'}\n")
+                    people_conf_str = _format_confidence(people_confidence)
+                    if people_conf_str:
+                        f.write(f"  Confidence: {people_conf_str}\n")
                     f.write(f"Hazard Detected: {'Yes' if hazard else 'No'}\n")
+                    hazard_conf_str = _format_confidence(hazard_confidence)
+                    if hazard_conf_str:
+                        f.write(f"  Confidence: {hazard_conf_str}\n")
                     f.write(f"Summary: {summary}\n\n")
                     
                     if hazards:
@@ -653,11 +683,21 @@ def process_directory_images(image_dir: str, output_file: str = "testing_documen
                             f.write(f"    Type: {h.get('type', 'N/A')}\n")
                             f.write(f"    Location: {h.get('location', 'N/A')}\n")
                             f.write(f"    Severity: {h.get('severity', 'N/A')}\n")
+                            conf_str = _format_confidence(h.get('confidence'))
+                            if conf_str:
+                                f.write(f"    Confidence: {conf_str}\n")
                             f.write(f"    Details: {h.get('details', 'N/A')}\n")
                             f.write(f"    SMS Text: {h.get('sms_text', 'N/A')}\n")
+                        
+                        # Classify overall hazard severity
+                        severity_level, severity_percentage = classify_hazard_severity(len(hazards))
+                        f.write(f"\nOverall Hazard Severity: {severity_level} ({severity_percentage}%)\n")
                     else:
                         f.write("Hazards Found: 0\n")
                         f.write("Status: No obstacles or hazards detected.\n")
+                        # Classify severity for no hazards case
+                        severity_level, severity_percentage = classify_hazard_severity(0)
+                        f.write(f"Overall Hazard Severity: {severity_level} ({severity_percentage}%)\n")
                 
                 f.write("\n")
                 
@@ -699,6 +739,89 @@ def process_directory_images(image_dir: str, output_file: str = "testing_documen
     return image_results
 
 
+def _format_confidence(confidence) -> str | None:
+    """
+    Convert confidence score to percentage format.
+    Handles both decimal (0.0-1.0) and percentage (0-100) formats.
+    
+    Args:
+        confidence: Confidence score as float/int (0.0-1.0 or 0-100)
+    
+    Returns:
+        Formatted string as percentage (e.g., "85%") or None if confidence is None
+    """
+    if confidence is None:
+        return None
+    
+    try:
+        conf_value = float(confidence)
+        # If value is <= 1.0, assume it's decimal format and convert to percentage
+        if conf_value <= 1.0:
+            conf_value = conf_value * 100
+        # Ensure it's within 0-100 range
+        conf_value = max(0, min(100, conf_value))
+        return f"{conf_value:.0f}%"
+    except (ValueError, TypeError):
+        return None
+
+
+def classify_hazard_severity(num_hazards, area_coverage=None):
+    """
+    Classify hazard severity based on number of hazards and optional parameters.
+    
+    Parameters:
+    - num_hazards: Number of hazards detected (int)
+    - area_coverage: Optional, percentage of area covered by hazards (0-100)
+    
+    Returns:
+    - severity_level: String ('Safe', 'Low', 'Medium', 'High', 'Critical')
+    - severity_percentage: Float (0-100)
+    """
+    
+    # Base severity on number of hazards
+    if num_hazards == 0:
+        base_severity = 0
+    elif num_hazards == 1:
+        base_severity = 10
+    elif num_hazards == 2:
+        base_severity = 20
+    elif num_hazards == 3:
+        base_severity = 30
+    elif num_hazards == 4:
+        base_severity = 40
+    elif num_hazards == 5:
+        base_severity = 50
+    elif num_hazards == 6:
+        base_severity = 60
+    elif num_hazards == 7:
+        base_severity = 70
+    elif num_hazards == 8:
+        base_severity = 80
+    elif num_hazards <= 10:
+        base_severity = 90
+    else:
+        base_severity = 100
+    
+    # Adjust for area coverage if provided
+    if area_coverage is not None:
+        coverage_factor = area_coverage / 100
+        base_severity = min(100, base_severity + (coverage_factor * 20))
+    
+    # Classify severity level
+    if base_severity == 0:
+        severity_level = "Safe"
+    elif base_severity < 40:
+        severity_level = "Low"
+    elif base_severity < 60:
+        severity_level = "Medium"
+    elif base_severity < 80:
+        severity_level = "High"
+    else:
+        severity_level = "Critical"
+    
+    return severity_level, round(base_severity, 2)
+
+
 def print_results(result: dict) -> None:
     print("\n" + "=" * 60)
     print("HAZARD DETECTION RESULTS")
@@ -713,9 +836,17 @@ def print_results(result: dict) -> None:
     people = result.get("people_detected", False)
     hazard = result.get("hazard_detected", False)
     hazards = result.get("hazards", [])
+    people_confidence = result.get("people_detected_confidence")
+    hazard_confidence = result.get("hazard_detected_confidence")
 
     print(f"\nPeople Detected: {'Yes' if people else 'No'}")
+    people_conf_str = _format_confidence(people_confidence)
+    if people_conf_str:
+        print(f"  Confidence: {people_conf_str}")
     print(f"Hazard Detected: {'Yes' if hazard else 'No'}")
+    hazard_conf_str = _format_confidence(hazard_confidence)
+    if hazard_conf_str:
+        print(f"  Confidence: {hazard_conf_str}")
 
     if hazards:
         print(f"\nNumber of Hazards: {len(hazards)}")
@@ -724,9 +855,19 @@ def print_results(result: dict) -> None:
             print(f"    Type: {h.get('type', 'N/A')}")
             print(f"    Location: {h.get('location', 'N/A')}")
             print(f"    Severity: {h.get('severity', 'N/A')}")
+            conf_str = _format_confidence(h.get('confidence'))
+            if conf_str:
+                print(f"    Confidence: {conf_str}")
             print(f"    Details: {h.get('details', 'N/A')}")
+        
+        # Classify overall hazard severity
+        severity_level, severity_percentage = classify_hazard_severity(len(hazards))
+        print(f"\nOverall Hazard Severity: {severity_level} ({severity_percentage}%)")
     else:
         print("\nNo hazards listed.")
+        # Classify severity for no hazards case
+        severity_level, severity_percentage = classify_hazard_severity(0)
+        print(f"Overall Hazard Severity: {severity_level} ({severity_percentage}%)")
 
     summary = result.get("summary")
     if summary:
