@@ -1,0 +1,445 @@
+BATCH TEST RESULTS (DIRECTORY)
+Test Date: 2026-02-16 16:39:28.570539
+Dir: C:\code\watai\Phase2---AI-Chatbot-and-Hazard-Detection-Model\HazardDetection\bathroom_test_images
+
+
+================================================================================
+SOURCE: ada_compliant1.jpg
+================================================================================
+Analysis Time: 2026-02-16 16:39:32
+
+Safety Score: 7/10
+Summary: This bathroom is moderately safe with several accessibility features, but some potential hazards and missing information require attention.
+Hazards Detected: 8
+
+--- DETECTED HAZARDS ---
+  #1 [MODERATE] Flooring & Walkways
+     Description: The floor appears to be tiled, which can be slippery when wet. No non-slip mats are visible in the shower area.
+     Confidence:  0.9
+
+  #2 [LOW] Flooring & Walkways
+     Description: No clutter or obstacles are visible on the floor.
+     Confidence:  0.95
+
+  #3 [LOW] Toilet Area
+     Description: The toilet has a raised seat attachment with grab bars, which is a positive safety feature.
+     Confidence:  0.95
+
+  #4 [MODERATE] Toilet Area
+     Description: There are no dedicated wall-mounted grab bars visible next to the toilet, only the grab bars on the raised seat.
+     Confidence:  0.9
+
+  #5 [LOW] Bathing Area (Shower/Tub)
+     Description: Grab bars are present inside and entering the shower.
+     Confidence:  0.95
+
+  #6 [LOW] Bathing Area (Shower/Tub)
+     Description: A shower chair is present inside the shower.
+     Confidence:  0.95
+
+  #7 [LOW] Bathing Area (Shower/Tub)
+     Description: The shower appears to be a walk-in shower with a low threshold, reducing the risk of a fall when entering.
+     Confidence:  0.9
+
+  #8 [LOW] Lighting & Visibility
+     Description: The lighting appears adequate, and there are no significant shadows obscuring floor hazards.
+     Confidence:  0.9
+
+--- RECOMMENDATIONS ---
+  - Install non-slip mats or apply non-slip treatment to the shower floor.
+  - Install dedicated, wall-mounted grab bars on the wall next to the toilet for added support.
+  - Ensure towels are not left on the floor where they could become a tripping hazard.
+
+
+================================================================================
+SOURCE: ada_compliant2.webp
+================================================================================
+Analysis Time: 2026-02-16 16:39:39
+
+Safety Score: 7/10
+Summary: This bathroom is moderately safe with several safety features in place, but some potential hazards and missing information require attention.
+Hazards Detected: 8
+
+--- DETECTED HAZARDS ---
+  #1 [LOW] Flooring & Walkways
+     Description: The floor appears to be tiled, which can be slippery when wet. There are no visible throw rugs or mats without rubber backing.
+     Confidence:  0.9
+
+  #2 [MODERATE] Flooring & Walkways
+     Description: The floor in the shower area is not clearly visible, but it is important to ensure it is non-slip.
+     Confidence:  0.7
+
+  #3 [LOW] Toilet Area
+     Description: Dedicated, wall-mounted grab bars are present near the toilet.
+     Confidence:  1.0
+
+  #4 [LOW] Toilet Area
+     Description: The toilet appears to be standard height.
+     Confidence:  0.9
+
+  #5 [LOW] Bathing Area (Shower/Tub)
+     Description: Grab bars are present inside and entering the shower area.
+     Confidence:  1.0
+
+  #6 [LOW] Bathing Area (Shower/Tub)
+     Description: A shower chair is present in the bathing area.
+     Confidence:  1.0
+
+  #7 [LOW] Bathing Area (Shower/Tub)
+     Description: The shower appears to be a walk-in shower with a low threshold.
+     Confidence:  0.9
+
+  #8 [LOW] Lighting & Visibility
+     Description: The lighting appears adequate, with under-shelf lighting illuminating the shelves.
+     Confidence:  0.8
+
+--- RECOMMENDATIONS ---
+  - Ensure the shower floor has a non-slip surface or use a non-slip mat.
+  - Consider a raised toilet seat if the current height is a concern for the user.
+  - Ensure all grab bars are securely mounted and regularly checked for stability.
+
+
+================================================================================
+SOURCE: ada_compliant3.webp
+================================================================================
+Analysis Time: 2026-02-16 16:39:47
+
+Safety Score: 7/10
+Summary: This bathroom appears to be reasonably safe with several accessibility features, but some potential hazards and missing information warrant attention.
+Hazards Detected: 6
+
+--- DETECTED HAZARDS ---
+  #1 [LOW] Flooring & Walkways
+     Description: The floor appears to be tiled, which can be slippery when wet. While there are no visible throw rugs or clutter, the grout lines could potentially be a minor trip hazard for some individuals.
+     Confidence:  0.8
+
+  #2 [MODERATE] Flooring & Walkways
+     Description: There is a dark mat in front of the toilet, but its backing and condition are not clearly visible. If it lacks a non-slip backing, it could be a slip hazard.
+     Confidence:  0.7
+
+  #3 [LOW] Toilet Area
+     Description: The toilet appears to be a standard height. While there are grab bars, their placement and sturdiness are not fully ascertainable from this angle.
+     Confidence:  0.7
+
+  #4 [MODERATE] Bathing Area (Shower/Tub)
+     Description: There is a wall-mounted fold-down shower seat, which is a good safety feature. However, the shower itself lacks visible grab bars inside or near the entrance.
+     Confidence:  0.9
+
+  #5 [MODERATE] Bathing Area (Shower/Tub)
+     Description: The shower head is a handheld unit, which can be helpful, but the absence of a non-slip mat or grab bars within the shower area is a concern.
+     Confidence:  0.9
+
+  #6 [LOW] Lighting & Visibility
+     Description: The lighting appears adequate, and there is good contrast between the toilet seat and the floor. However, the reflection in the mirror suggests a locker room environment, which might have different lighting conditions than the bathroom itself.
+     Confidence:  0.8
+
+--- RECOMMENDATIONS ---
+  - Install grab bars inside and near the entrance of the shower.
+  - Ensure the mat in front of the toilet has a non-slip backing and consider replacing it with a non-slip shower mat if it is intended for use in a wet area.
+  - Consider a raised toilet seat attachment if the current toilet height is a concern for the user.
+  - Ensure adequate non-slip flooring or mats are used in the shower area.
+
+
+================================================================================
+SOURCE: clutter1.jpg
+================================================================================
+Analysis Time: 2026-02-16 16:39:55
+
+Safety Score: 3/10
+Summary: The bathroom presents a significant fall risk due to extensive clutter on the floor, creating numerous trip hazards, and a lack of visible safety equipment in the bathing and toilet areas.
+Hazards Detected: 7
+
+--- DETECTED HAZARDS ---
+  #1 [CRITICAL] Flooring & Walkways
+     Description: The floor is heavily cluttered with toiletries, cleaning supplies, personal items, and laundry baskets, creating numerous trip hazards.
+     Confidence:  1.0
+
+  #2 [MODERATE] Flooring & Walkways
+     Description: A large, patterned rug is present, and its backing is not visible to determine if it is non-slip, posing a potential trip hazard.
+     Confidence:  0.8
+
+  #3 [CRITICAL] Flooring & Walkways
+     Description: There is a large amount of product packaging and items on the floor, some of which appear to be near the bathtub, increasing the risk of slipping.
+     Confidence:  1.0
+
+  #4 [CRITICAL] Toilet Area
+     Description: No dedicated, wall-mounted grab bars are visible near the toilet.
+     Confidence:  0.9
+
+  #5 [CRITICAL] Bathing Area (Shower/Tub)
+     Description: No grab bars are visible inside or entering the bathtub/shower area.
+     Confidence:  0.9
+
+  #6 [MODERATE] Bathing Area (Shower/Tub)
+     Description: No shower chair or transfer bench is visible.
+     Confidence:  0.9
+
+  #7 [LOW] Lighting & Visibility
+     Description: The lighting appears adequate, but the extensive clutter on the floor may obscure potential hazards.
+     Confidence:  0.7
+
+--- RECOMMENDATIONS ---
+  - Immediately clear all clutter from the floor to create safe and unobstructed walkways.
+  - Install wall-mounted grab bars in the shower/tub area and next to the toilet.
+  - Consider a raised toilet seat attachment if the toilet height is a concern.
+  - Ensure the rug has a non-slip backing or remove it if it poses a trip hazard.
+  - Install a shower chair or transfer bench for safer bathing.
+  - Organize toiletries and supplies in designated storage units (e.g., shelves, cabinets, drawers) to prevent floor clutter.
+
+
+================================================================================
+SOURCE: clutter2.webp
+================================================================================
+Analysis Time: 2026-02-16 16:40:05
+
+Safety Score: 2/10
+Summary: This bathroom presents a critical fall risk due to extensive clutter, a very messy floor, and a lack of essential safety equipment.
+Hazards Detected: 9
+
+--- DETECTED HAZARDS ---
+  #1 [CRITICAL] Flooring & Walkways
+     Description: The floor is heavily littered with debris, bottles, and other items, creating a severe trip hazard.
+     Confidence:  1.0
+
+  #2 [MODERATE] Flooring & Walkways
+     Description: A dark-colored rug is present and appears to have debris on it, and its backing is not visible to determine if it's non-slip.
+     Confidence:  0.8
+
+  #3 [MODERATE] Flooring & Walkways
+     Description: The area around the bathtub appears to have some debris and potentially wet surfaces, though not clearly visible.
+     Confidence:  0.7
+
+  #4 [CRITICAL] Toilet Area
+     Description: No visible grab bars are present near the toilet.
+     Confidence:  0.9
+
+  #5 [LOW] Toilet Area
+     Description: The height of the toilet is not clearly discernible, but it appears to be standard height.
+     Confidence:  0.6
+
+  #6 [CRITICAL] Bathing Area (Shower/Tub)
+     Description: No visible grab bars are present inside or around the bathtub/shower area.
+     Confidence:  0.9
+
+  #7 [CRITICAL] Bathing Area (Shower/Tub)
+     Description: No shower chair or transfer bench is visible.
+     Confidence:  0.9
+
+  #8 [MODERATE] Bathing Area (Shower/Tub)
+     Description: The bathtub has a high step-over threshold, which can be a fall risk.
+     Confidence:  0.8
+
+  #9 [LOW] Lighting & Visibility
+     Description: While the lighting seems adequate, the extensive clutter obscures potential floor hazards.
+     Confidence:  0.7
+
+--- RECOMMENDATIONS ---
+  - Immediately clear all clutter from the floor and walkways.
+  - Install wall-mounted grab bars next to the toilet and in the shower/tub area.
+  - Ensure all rugs and mats have non-slip backing or remove them.
+  - Consider a non-slip mat for the bathtub/shower floor.
+  - Evaluate the need for a shower chair or transfer bench.
+  - Ensure the toilet is at an appropriate height or consider a raised toilet seat.
+  - Maintain a clean and organized bathroom environment.
+
+
+================================================================================
+SOURCE: grabbar_1.jpg
+================================================================================
+Analysis Time: 2026-02-16 16:40:12
+
+Safety Score: 7/10
+Summary: This bathroom has some good safety features, but a few areas could be improved to further reduce fall risk.
+Hazards Detected: 3
+
+--- DETECTED HAZARDS ---
+  #1 [MODERATE] Flooring & Walkways
+     Description: The floor appears to be a light-colored tile, which could become slippery when wet. There are no visible non-slip mats in the shower/tub area.
+     Confidence:  0.9
+
+  #2 [MODERATE] Bathing Area (Shower/Tub)
+     Description: While there is a grab bar inside the shower, there is no visible shower chair or transfer bench.
+     Confidence:  0.8
+
+  #3 [LOW] Lighting & Visibility
+     Description: The lighting appears adequate, but it's difficult to definitively assess contrast between surfaces like the toilet seat and the floor from this image alone.
+     Confidence:  0.6
+
+--- RECOMMENDATIONS ---
+  - Install non-slip mats or apply non-slip treatment to the shower/tub floor.
+  - Consider a shower chair or transfer bench for added stability during bathing.
+  - Ensure good lighting throughout the bathroom, especially in the shower/tub area, and check for adequate contrast between the toilet seat and the floor.
+
+
+================================================================================
+SOURCE: grabbar_2.webp
+================================================================================
+Analysis Time: 2026-02-16 16:40:18
+
+Safety Score: 7/10
+Summary: This bathroom has several safety features for seniors, including grab bars and a shower chair, but some potential hazards remain.
+Hazards Detected: 2
+
+--- DETECTED HAZARDS ---
+  #1 [MODERATE] Flooring & Walkways
+     Description: A white towel is placed on the floor in front of the shower curtain, which could be a tripping hazard.
+     Confidence:  0.9
+
+  #2 [MODERATE] Flooring & Walkways
+     Description: The floor in the shower area appears to be tiled, which can become slippery when wet. While there is a shower chair, a non-slip mat is not clearly visible.
+     Confidence:  0.8
+
+--- RECOMMENDATIONS ---
+  - Ensure the towel is stored properly and not left on the floor.
+  - Place a non-slip mat inside the shower area.
+  - Consider installing additional grab bars if needed, especially near the toilet and shower entry.
+  - Ensure adequate lighting in the bathroom, especially at night.
+
+
+================================================================================
+SOURCE: grabbar_3.png
+================================================================================
+Analysis Time: 2026-02-16 16:40:26
+
+Safety Score: 7/10
+Summary: This bathroom has good safety features like grab bars and a walk-in shower, but some minor improvements could further reduce fall risk.
+Hazards Detected: 2
+
+--- DETECTED HAZARDS ---
+  #1 [MODERATE] Flooring & Walkways
+     Description: The floor in front of the shower appears to be tiled, which can be slippery when wet. While the shower floor has a mosaic tile pattern that may offer some grip, it's not explicitly a non-slip surface.
+     Confidence:  0.8
+
+  #2 [LOW] Flooring & Walkways
+     Description: A walker is present in the image, which, while helpful for mobility, can also be an obstacle if not stored properly when not in use.
+     Confidence:  0.9
+
+--- RECOMMENDATIONS ---
+  - Consider adding a non-slip mat or rug with a rubber backing in front of the shower and near the toilet.
+  - Ensure the walker is stored in a designated, out-of-the-way location when not in use to prevent tripping hazards.
+
+
+================================================================================
+SOURCE: loose_rug1.webp
+================================================================================
+Analysis Time: 2026-02-16 16:40:34
+
+Safety Score: 4/10
+Summary: This bathroom presents several significant fall risks due to flooring, lack of grab bars, and potential lighting issues, requiring immediate attention.
+Hazards Detected: 6
+
+--- DETECTED HAZARDS ---
+  #1 [CRITICAL] Flooring & Walkways
+     Description: A large throw rug is present on the floor, and its backing is not visible to determine if it is non-slip. This poses a high trip risk.
+     Confidence:  0.9
+
+  #2 [MODERATE] Flooring & Walkways
+     Description: The floor tiles have a scalloped pattern which could potentially create unevenness or a visual hazard, increasing trip risk.
+     Confidence:  0.7
+
+  #3 [CRITICAL] Toilet Area
+     Description: No dedicated, wall-mounted grab bars are visible near the toilet.
+     Confidence:  0.95
+
+  #4 [CRITICAL] Bathing Area (Shower/Tub)
+     Description: No grab bars are visible inside or near the bathtub.
+     Confidence:  0.95
+
+  #5 [MODERATE] Bathing Area (Shower/Tub)
+     Description: A standard bathtub is present, which may have a high step-over threshold, posing a fall risk when entering or exiting.
+     Confidence:  0.8
+
+  #6 [LOW] Lighting & Visibility
+     Description: While there are light fixtures, the overall lighting in the room, especially around the floor and toilet area, is not clearly assessed for potential shadows or glare that could obscure hazards.
+     Confidence:  0.6
+
+--- RECOMMENDATIONS ---
+  - Remove the throw rug or ensure it has a non-slip backing and is secured to the floor.
+  - Install wall-mounted grab bars on both sides of the toilet.
+  - Install grab bars inside and near the entrance of the bathtub.
+  - Consider a non-slip mat for the bathtub floor.
+  - Evaluate the lighting to ensure adequate illumination and minimize shadows, especially in high-traffic areas and around the toilet and tub.
+  - Assess the height of the bathtub threshold and consider modifications or assistive devices if it poses a significant challenge.
+
+
+================================================================================
+SOURCE: loose_rug2.jpg
+================================================================================
+Analysis Time: 2026-02-16 16:40:40
+
+Safety Score: 6/10
+Summary: The bathroom has some potential trip hazards and lacks visible grab bars, but the flooring appears generally safe.
+Hazards Detected: 3
+
+--- DETECTED HAZARDS ---
+  #1 [MODERATE] Flooring & Walkways
+     Description: A dark-colored rug is present on the floor. Its backing is not visible, so it could be a slip or trip hazard if it is not secured.
+     Confidence:  0.8
+
+  #2 [CRITICAL] Toilet Area
+     Description: No dedicated, wall-mounted grab bars are visible near the toilet.
+     Confidence:  0.9
+
+  #3 [CRITICAL] Bathing Area (Shower/Tub)
+     Description: No grab bars are visible inside or entering the bathtub.
+     Confidence:  0.9
+
+--- RECOMMENDATIONS ---
+  - Ensure the rug has a non-slip backing or remove it to prevent tripping.
+  - Install wall-mounted grab bars next to the toilet for support.
+  - Install grab bars inside and near the entrance of the bathtub for safe entry and exit.
+  - Consider a non-slip mat for the bathtub floor.
+
+
+================================================================================
+SOURCE: transfer_bench1.jpg
+================================================================================
+Analysis Time: 2026-02-16 16:40:47
+
+Safety Score: 6/10
+Summary: The bathroom has some good safety features like a shower chair, but lacks grab bars and has potential flooring hazards.
+Hazards Detected: 3
+
+--- DETECTED HAZARDS ---
+  #1 [MODERATE] Flooring & Walkways
+     Description: A dark-colored mat is present on the floor in front of the tub, which could be a trip hazard if not secured or if it becomes wet.
+     Confidence:  0.8
+
+  #2 [CRITICAL] Bathing Area (Shower/Tub)
+     Description: There are no visible grab bars inside or entering the tub/shower.
+     Confidence:  0.9
+
+  #3 [CRITICAL] Toilet Area
+     Description: No dedicated, wall-mounted grab bars are visible near the toilet.
+     Confidence:  0.9
+
+--- RECOMMENDATIONS ---
+  - Install wall-mounted grab bars on both sides of the toilet.
+  - Install grab bars inside and near the entrance of the tub/shower.
+  - Ensure the floor mat in front of the tub is non-slip and securely fastened, or consider removing it.
+  - Consider a non-slip treatment for the tub/shower floor.
+
+
+================================================================================
+SOURCE: transfer_bench2.jpg
+================================================================================
+Analysis Time: 2026-02-16 16:40:54
+
+Safety Score: 7/10
+Summary: This bathroom has several safety features, including grab bars and a well-lit vanity, but lacks non-slip mats in the tub and a shower chair.
+Hazards Detected: 2
+
+--- DETECTED HAZARDS ---
+  #1 [MODERATE] Flooring & Walkways
+     Description: The floor appears to be a smooth, wooden laminate which could be slippery when wet. There are no visible non-slip mats in the tub/shower area.
+     Confidence:  0.9
+
+  #2 [MODERATE] Bathing Area (Shower/Tub)
+     Description: There are grab bars inside and entering the tub, which is good. However, there is no shower chair or transfer bench visible.
+     Confidence:  0.95
+
+--- RECOMMENDATIONS ---
+  - Install non-slip mats or appliques inside the bathtub.
+  - Consider a shower chair or transfer bench for added safety during bathing.
+  - Ensure the wooden laminate flooring is regularly cleaned and dried to prevent slips.
+
