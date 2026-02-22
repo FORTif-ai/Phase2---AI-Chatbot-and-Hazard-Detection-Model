@@ -1,0 +1,217 @@
+================================================================================
+AI-GENERATED VIDEO HAZARD DETECTION TEST RESULTS
+================================================================================
+Test Date: 2026-02-16
+Total Videos Processed: 5
+================================================================================
+
+VIDEO #1: clearPath.mp4
+================================================================================
+Video Info: 24.00 FPS, 141 frames, 5.88s duration
+Analysis Time: 2026-02-16 17:52:16
+
+People Detected: Yes
+  Confidence: 98%
+Hazard Detected: No
+  Confidence: 0%
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+Summary: An elderly woman is walking down a hallway. No immediate hazards are visible in the image.
+
+Frame Analysis:
+- Frame 1 (0.00s): No hazards detected
+- Frame 2 (4.00s): No hazards detected
+
+Total Frames Analyzed: 2
+================================================================================
+
+VIDEO #2: messyPath.mp4
+================================================================================
+Video Info: 24.00 FPS, 141 frames, 5.88s duration
+Analysis Time: 2026-02-16 17:52:47
+
+People Detected: Yes
+  Confidence: 100%
+Hazard Detected: Yes
+  Confidence: 95%
+
+Hazards Found: 2
+
+  Hazard #1:
+    Type: books obstructing walkway
+    Location: bottom of stairs
+    Severity: medium
+    Confidence: 90%
+    Details: A stack of books is placed at the bottom of the stairs, potentially causing a tripping hazard for anyone descending.
+    SMS Text: books obstructing walkway near bottom of stairs
+
+  Hazard #2:
+    Type: shoes obstructing walkway
+    Location: hallway near door
+    Severity: low
+    Confidence: 85%
+    Details: A pair of shoes is left in the hallway, which could be a tripping hazard.
+    SMS Text: shoes obstructing walkway near hallway near door
+
+Overall Hazard Severity: Low (20%)
+
+Summary: A tripping hazard was detected at the bottom of the stairs due to a stack of books. Shoes are also obstructing the hallway.
+
+Frame Analysis:
+- Frame 1 (0.00s): 2 hazards detected (books at bottom of stairs, shoes in hallway)
+- Frame 2 (4.00s): 2 hazards detected (pointed furniture edges at bottom of stairs, protruding edge near wall)
+
+Total Frames Analyzed: 2
+================================================================================
+
+VIDEO #3: MoreClutter.mp4
+================================================================================
+Video Info: (Video details not captured in output)
+Analysis Time: 2026-02-16 17:53:XX
+
+People Detected: Yes
+Hazard Detected: Yes
+
+Hazards Found: Multiple (extensive clutter detected)
+
+Note: This video contains a very high number of protruding objects scattered throughout the walkway. The AI detected numerous tripping hazards with high confidence (90% for most detections).
+
+Hazard Types Detected:
+- Multiple protruding objects in center of walkway
+- Dark green circular objects
+- Various objects scattered throughout the navigation path
+
+Overall Hazard Severity: Critical (100%)
+
+Summary: Extremely cluttered hallway with many objects creating tripping hazards throughout the walkway.
+
+Total Frames Analyzed: 1
+================================================================================
+
+VIDEO #4: puddlePath.mp4
+================================================================================
+Video Info: 24.00 FPS, 141 frames, 5.88s duration
+Analysis Time: 2026-02-16 17:56:07
+
+People Detected: Yes
+  Confidence: 100%
+Hazard Detected: Yes
+  Confidence: 100%
+
+Hazards Found: 1
+
+  Hazard #1:
+    Type: wet floor
+    Location: hallway floor
+    Severity: high (Frame 1) / medium (Frame 2)
+    Confidence: 100%
+    Details: A large puddle of liquid is present on the floor of the hallway, creating a slip hazard.
+    SMS Text: wet floor near hallway floor
+
+Overall Hazard Severity: Low (10%)
+
+Summary: A significant slip hazard due to a wet floor was detected in the hallway. A person is present in the image, navigating the space.
+
+Frame Analysis:
+- Frame 1 (0.00s): Wet floor detected (high severity)
+- Frame 2 (4.00s): Wet floor detected (medium severity)
+
+Total Frames Analyzed: 2
+================================================================================
+
+VIDEO #5: seniorClutteredHallway.mp4 (AI-Generated)
+================================================================================
+Video Info: 30.00 FPS, 120 frames, 4.00s duration
+Analysis Time: 2026-02-16 17:56:37
+
+People Detected: Yes
+  Confidence: 100%
+Hazard Detected: Yes
+  Confidence: 95%
+
+Hazards Found: 9
+
+  Hazard #1:
+    Type: protruding furniture edge
+    Location: left side of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A brown rectangular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near left side of the walkway
+
+  Hazard #2:
+    Type: protruding furniture edge
+    Location: center of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A green rectangular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near center of the walkway
+
+  Hazard #3:
+    Type: protruding furniture edge
+    Location: right side of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A dark gray circular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near right side of the walkway
+
+  Hazard #4:
+    Type: protruding furniture edge
+    Location: center of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A blue rectangular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near center of the walkway
+
+  Hazard #5:
+    Type: protruding furniture edge
+    Location: right side of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A purple circular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near right side of the walkway
+
+  Hazard #6:
+    Type: protruding furniture edge
+    Location: right side of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A dark gray circular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near right side of the walkway
+
+  Hazard #7:
+    Type: protruding furniture edge
+    Location: right side of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A dark gray circular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near right side of the walkway
+
+  Hazard #8:
+    Type: protruding furniture edge
+    Location: right side of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A purple rectangular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near right side of the walkway
+
+  Hazard #9:
+    Type: protruding furniture edge
+    Location: right side of the walkway
+    Severity: medium
+    Confidence: 90%
+    Details: A blue circular object is protruding into the walkway area.
+    SMS Text: protruding furniture edge near right side of the walkway
+
+Overall Hazard Severity: Critical (90%)
+
+Summary: Several objects are protruding into the walkway, posing a tripping hazard. A person is present in the scene.
+
+Total Frames Analyzed: 1
+================================================================================
+
+END OF TEST RESULTS
+================================================================================
