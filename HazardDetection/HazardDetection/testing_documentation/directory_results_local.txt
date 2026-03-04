@@ -1,0 +1,132 @@
+================================================================================
+HAZARD DETECTION TEST RESULTS - BATCH TESTING
+================================================================================
+Test Date: 2026-03-02 22:25:58
+Directory: C:\Users\DLeenie\Desktop\FORTif.ai\FORTif.ai Phase 2\DevCon\Phase2---AI-Chatbot-and-Hazard-Detection-Model\HazardDetection\bathroom_hazard_detector\bathroom_test_images
+Total Images: 6
+================================================================================
+
+
+================================================================================
+IMAGE #1: ada_compliant1.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:26:03
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The bathroom appears to be designed with accessibility in mind, featuring grab bars and a shower seat. No immediate hazards were detected in the walkways.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+IMAGE #2: clutter1.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:26:11
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: Yes
+  Confidence: 100%
+Summary: The bathroom floor is heavily cluttered with various items, creating significant tripping, slipping, and cutting hazards in the main walkway.
+
+Hazards Found: 3
+
+  Hazard #1:
+    Type: tripping hazard
+    Location: floor walkway
+    Severity: high
+    Confidence: 100%
+    Details: The floor is covered with numerous items including toiletries, cleaning supplies, and personal care products, creating a significant tripping hazard in the main walkway of the bathroom.
+    SMS Text: tripping hazard on floor walkway
+
+  Hazard #2:
+    Type: sharp objects
+    Location: floor walkway
+    Severity: medium
+    Confidence: 90%
+    Details: Among the scattered items, there are likely sharp objects such as razors, makeup brushes with sharp bristles, and potentially broken glass or plastic containers, posing a risk of cuts.
+    SMS Text: sharp objects on floor walkway
+
+  Hazard #3:
+    Type: spill hazard
+    Location: floor walkway
+    Severity: medium
+    Confidence: 85%
+    Details: Some of the bottles and containers may have leaked, creating wet or slippery patches on the floor, which is a slip hazard.
+    SMS Text: spill hazard on floor walkway
+
+Overall Hazard Severity: Low (30%)
+
+
+================================================================================
+IMAGE #3: grabbar_1.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:26:17
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The image shows a clean and well-maintained bathroom with no immediate safety hazards detected in the walkways.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+IMAGE #4: loose_rug2.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:26:25
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The image shows a bathroom with a bathtub, vanity, and a rug. There are no immediate hazards detected in the walkways.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+IMAGE #5: transfer_bench1.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:26:31
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The image shows a bathroom with a shower chair. No immediate hazards were detected in the walkways or hallways.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+IMAGE #6: transfer_bench2.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:26:38
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The image shows a bathroom with no apparent hazards in the walkways or navigation paths.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+END OF TEST RESULTS
+================================================================================

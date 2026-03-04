@@ -1,0 +1,148 @@
+================================================================================
+HAZARD DETECTION TEST RESULTS - BATCH TESTING
+================================================================================
+Test Date: 2026-03-02 22:40:17
+Directory: C:\Users\DLeenie\Desktop\FORTif.ai\FORTif.ai Phase 2\DevCon\Phase2---AI-Chatbot-and-Hazard-Detection-Model\HazardDetection\bathroom_hazard_detector/bathroom_test_images
+Total Images: 6
+================================================================================
+
+
+================================================================================
+IMAGE #1: ada_compliant1.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:40:20
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The bathroom appears to be designed with accessibility in mind, featuring grab bars and a shower seat. No immediate hazards were detected in the walkways.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+IMAGE #2: clutter1.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:40:28
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: Yes
+  Confidence: 100%
+Summary: The bathroom floor is heavily cluttered with various items, creating significant trip and fall hazards. There is also a potential for slippery surfaces due to spilled liquids.
+
+Hazards Found: 3
+
+  Hazard #1:
+    Type: trip hazard
+    Location: floor
+    Severity: high
+    Confidence: 100%
+    Details: Numerous items are scattered across the floor, creating a significant trip hazard in a high-traffic area like a bathroom.
+    SMS Text: trip hazard on bathroom floor
+
+  Hazard #2:
+    Type: sharp object
+    Location: floor
+    Severity: medium
+    Confidence: 90%
+    Details: Several items on the floor appear to have sharp edges or could be broken, posing a risk of cuts or punctures.
+    SMS Text: sharp objects on bathroom floor
+
+  Hazard #3:
+    Type: wet floor
+    Location: floor
+    Severity: medium
+    Confidence: 80%
+    Details: Given the location (bathroom) and the presence of many bottles, there is a high likelihood of spilled liquids creating a slippery surface.
+    SMS Text: potential wet floor in bathroom
+
+Overall Hazard Severity: Low (30%)
+
+
+================================================================================
+IMAGE #3: grabbar_1.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:40:35
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The image shows a clean and well-maintained bathroom with no immediate physical hazards detected.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+IMAGE #4: loose_rug2.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:40:41
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The image shows a clean and organized bathroom with no immediate safety hazards detected.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+IMAGE #5: transfer_bench1.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:40:48
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: Yes
+  Confidence: 95%
+Summary: Potential hazards include pointed edges on the shower chair and the risk of a wet floor in the bathroom.
+
+Hazards Found: 2
+
+  Hazard #1:
+    Type: pointed furniture edges
+    Location: right side of bathtub
+    Severity: medium
+    Confidence: 90%
+    Details: The legs of the shower chair have exposed metal edges that could be sharp and pose a risk if bumped into, especially in a wet environment.
+    SMS Text: pointed chair leg near tub
+
+  Hazard #2:
+    Type: wet floor
+    Location: bathroom floor
+    Severity: medium
+    Confidence: 85%
+    Details: The presence of a bathtub and shower suggests the floor is likely to become wet, increasing the risk of slips and falls.
+    SMS Text: potential wet floor in bathroom
+
+Overall Hazard Severity: Low (20%)
+
+
+================================================================================
+IMAGE #6: transfer_bench2.jpg
+================================================================================
+Analysis Time: 2026-03-02 22:40:56
+
+People Detected: No
+  Confidence: 0%
+Hazard Detected: No
+  Confidence: 0%
+Summary: The image shows a bathroom with no immediate hazards detected in the walkways or navigation paths.
+
+Hazards Found: 0
+Status: No obstacles or hazards detected.
+Overall Hazard Severity: Safe (0%)
+
+
+================================================================================
+END OF TEST RESULTS
+================================================================================
