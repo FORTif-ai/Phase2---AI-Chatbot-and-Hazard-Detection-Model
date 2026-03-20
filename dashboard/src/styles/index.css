@@ -1,19 +1,26 @@
-/* === CSS Variables === */
+/* === CSS Variables — Fortif.ai Senior Assistant (soft blue, black text, white, maroon accents) === */
 :root {
-  --primary-color: #3b82f6;
-  --primary-hover: #2563eb;
-  --secondary-color: #64748b;
-  --success-color: #22c55e;
-  --warning-color: #f59e0b;
-  --danger-color: #ef4444;
-  --background: #f8fafc;
+  --primary-color: #4a7eb0;
+  --primary-hover: #3d6a96;
+  --primary-soft: #e8f1f9;
+  --secondary-color: #5a6570;
+  --success-color: #2d8a5e;
+  --warning-color: #c17f2a;
+  --danger-color: #b84545;
+  --maroon: #7a2838;
+  --maroon-soft: #f5e8eb;
+  --maroon-hover: #631f2d;
+  --accent-red: #9e2f3c;
+  --background: #f7f9fc;
   --surface: #ffffff;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --radius: 8px;
+  --text-primary: #0f1419;
+  --text-secondary: #4a5568;
+  --border-color: #dce4ee;
+  --shadow: 0 1px 2px rgba(15, 20, 25, 0.06), 0 4px 12px rgba(74, 126, 176, 0.08);
+  --shadow-md: 0 4px 14px rgba(15, 20, 25, 0.08), 0 8px 28px rgba(74, 126, 176, 0.12);
+  /* Sharp corners on controls — avoids generic “rounded UI” look */
+  --radius: 0;
+  --radius-lg: 0;
 }
 
 /* === Reset === */
@@ -26,11 +33,30 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif;
+  font-family:
+    'Roboto',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
   background-color: var(--background);
   color: var(--text-primary);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* === Layout === */
@@ -52,34 +78,57 @@ body {
 .navbar {
   background: var(--surface);
   border-bottom: 1px solid var(--border-color);
-  padding: 1rem 2rem;
+  padding: 0.875rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: var(--shadow);
+  box-shadow: 0 1px 0 rgba(74, 126, 176, 0.12);
 }
 
 .navbar-brand a {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--primary-color);
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.1rem;
   text-decoration: none;
+  line-height: 1.15;
+}
+
+.navbar-brand-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.navbar-brand-sub {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--maroon);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .navbar-menu {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
+  flex-wrap: wrap;
 }
 
 .navbar-link {
   color: var(--text-secondary);
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.35rem 0;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
 }
 
 .navbar-link:hover {
   color: var(--primary-color);
+  border-bottom-color: var(--primary-soft);
 }
 
 .navbar-user {
@@ -131,6 +180,29 @@ body {
 .btn-outline:hover:not(:disabled) {
   border-color: var(--primary-color);
   color: var(--primary-color);
+}
+
+.btn-maroon-outline {
+  border: 1px solid var(--maroon);
+  color: var(--maroon);
+  background: var(--surface);
+}
+
+.btn-maroon-outline:hover:not(:disabled) {
+  background: var(--maroon-soft);
+  border-color: var(--maroon-hover);
+  color: var(--maroon-hover);
+}
+
+.btn-secondary-soft {
+  background: var(--primary-soft);
+  color: var(--primary-hover);
+  border: 1px solid transparent;
+}
+
+.btn-secondary-soft:hover:not(:disabled) {
+  background: #d9e8f4;
+  color: var(--text-primary);
 }
 
 .btn-warning {
@@ -225,7 +297,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(145deg, #e8f1f9 0%, #f7f9fc 45%, #f0e8ea 100%);
 }
 
 .login-card {
@@ -243,7 +315,7 @@ body {
 }
 
 .login-header h1 {
-  color: var(--primary-color);
+  color: var(--maroon);
   font-size: 1.75rem;
   margin-bottom: 0.25rem;
 }
@@ -267,13 +339,13 @@ body {
 
 /* === Alerts === */
 .error-alert {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  padding: 0.75rem 1rem;
+  background: var(--maroon-soft);
+  border: 1px solid rgba(122, 40, 56, 0.25);
+  color: var(--maroon-hover);
+  padding: 0.875rem 1rem;
   border-radius: var(--radius);
   margin-bottom: 1rem;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 
 .success-alert {
@@ -305,7 +377,7 @@ body {
 }
 
 .page-header p {
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 /* === Form Help Text === */
@@ -313,7 +385,7 @@ body {
   display: block;
   margin-top: 0.25rem;
   font-size: 0.75rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 /* === Memory Form Card === */
@@ -329,6 +401,135 @@ body {
   resize: vertical;
 }
 
+/* === Homepage hero (Fortif.ai Senior Assistant) === */
+.dashboard-home {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.home-hero {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2rem 1.75rem;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--maroon));
+  opacity: 0.85;
+}
+
+.home-hero-inner {
+  position: relative;
+  max-width: 40rem;
+}
+
+.home-title {
+  font-size: clamp(1.65rem, 4vw, 2.15rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.home-title-accent {
+  color: var(--maroon);
+  font-weight: 700;
+}
+
+.home-lead {
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+}
+
+.home-hero-link {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(74, 126, 176, 0.35);
+  padding-bottom: 1px;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.home-hero-link:hover {
+  color: var(--maroon);
+  border-bottom-color: var(--maroon);
+}
+
+.home-hero-actions-sep {
+  color: var(--border-color);
+  user-select: none;
+}
+
+.home-image-strip {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  background: var(--surface);
+}
+
+.home-image-strip-img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: fill;
+}
+
+.home-panel {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+.home-panel-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.home-panel-hint {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.patient-form-group {
+  margin-bottom: 0;
+}
+
+.home-empty {
+  background: var(--surface);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+}
+
 /* === Stats Grid === */
 .stats-grid {
   display: grid;
@@ -339,35 +540,55 @@ body {
 
 .stat-card {
   background: var(--surface);
-  padding: 1.5rem;
-  border-radius: var(--radius);
+  padding: 1.35rem 1.5rem;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--primary-color);
+}
+
+.stat-card--blue {
+  border-left-color: var(--primary-color);
+}
+
+.stat-card--maroon {
+  border-left-color: var(--maroon);
+  background: linear-gradient(to bottom, var(--surface), var(--maroon-soft));
 }
 
 .stat-card h3 {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.8125rem;
+  font-weight: 600;
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .stat-value {
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
-.stat-value.positive {
-  color: var(--success-color);
+.stat-value.positive,
+.stat-value--positive {
+  color: var(--primary-color);
+}
+
+.stat-card--maroon .stat-value--positive {
+  color: var(--maroon);
 }
 
 /* === Dashboard Sections === */
 .dashboard-section {
   background: var(--surface);
   padding: 1.5rem;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
 }
 
 .section-header {
@@ -375,10 +596,14 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .section-header h2 {
   font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .topics-grid,
@@ -405,8 +630,8 @@ body {
 
 .topic-count,
 .emotion-count {
-  font-weight: 600;
-  color: var(--primary-color);
+  font-weight: 700;
+  color: var(--maroon);
 }
 
 /* === Recent Memories === */
@@ -488,7 +713,7 @@ body {
 .topic-badge,
 .sensitive-badge {
   padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
+  border-radius: var(--radius);
   font-size: 0.75rem;
   font-weight: 500;
   text-transform: capitalize;
@@ -499,8 +724,8 @@ body {
 }
 
 .topic-badge {
-  background: #e0e7ff;
-  color: #3730a3;
+  background: var(--primary-soft);
+  color: var(--primary-hover);
 }
 
 .sensitive-badge {
@@ -554,7 +779,7 @@ body {
 
 .results-header {
   margin-bottom: 1rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-size: 0.875rem;
 }
 
@@ -568,7 +793,57 @@ body {
 }
 
 .page-info {
-  color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+/* === Banner/Panel hover polish across pages === */
+.home-hero,
+.home-image-strip,
+.home-panel,
+.dashboard-section,
+.search-form,
+.memory-card,
+.memory-detail-card,
+.memory-form-card,
+.login-card,
+.empty-state {
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.home-hero:hover,
+.home-image-strip:hover,
+.home-panel:hover,
+.dashboard-section:hover,
+.search-form:hover,
+.memory-card:hover,
+.memory-detail-card:hover,
+.memory-form-card:hover,
+.login-card:hover,
+.empty-state:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(15, 20, 25, 0.12), 0 6px 16px rgba(74, 126, 176, 0.16);
+  border-color: rgba(74, 126, 176, 0.35);
+}
+
+/* === Homepage-only scroll fade animations === */
+.dashboard-home .scroll-fade {
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+  will-change: opacity, transform;
+}
+
+.dashboard-home .scroll-fade.scroll-fade-ready {
+  opacity: 0.18;
+  transform: translateY(16px);
+}
+
+.dashboard-home .scroll-fade.scroll-fade-ready.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* === Memory Detail === */
@@ -627,7 +902,7 @@ body {
   font-size: 0.75rem;
   background: var(--background);
   padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
 }
 
 .edit-form {
@@ -682,7 +957,7 @@ body {
 /* === Patient Selector === */
 .patient-selector {
   background: var(--surface);
-  padding: 1.5rem;
+  padding: 1.5rem 1.75rem;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   margin-bottom: 2rem;

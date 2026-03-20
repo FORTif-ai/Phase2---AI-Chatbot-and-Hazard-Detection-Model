@@ -5,6 +5,7 @@ import Memories from './pages/Memories'
 import MemoryDetail from './pages/MemoryDetail'
 import NewMemory from './pages/NewMemory'
 import VoiceCommand from './pages/VoiceCommand'
+import HazardDetector from './pages/HazardDetector'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="memories/new" element={<NewMemory />} />
         <Route path="memories/:uuid" element={<MemoryDetail />} />
         <Route path="voice" element={<VoiceCommand />} />
+        <Route path="hazard-detector" element={<HazardDetector />} />
       </Route>
     </Routes>
   )

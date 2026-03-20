@@ -7,14 +7,9 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      // Dashboard API endpoints go to RAG API server (port 8000)
-      '/api/dashboard': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-      },
-      // Other API endpoints go to Node.js server (port 3001)
+      // RAG FastAPI serves /api/dashboard, /api/query, /api/ingest on port 8000
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'http://localhost:8000',
         changeOrigin: true,
       },
     },
