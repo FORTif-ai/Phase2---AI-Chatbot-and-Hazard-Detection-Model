@@ -12,6 +12,27 @@ const PORT = process.env.PORT || 3001;
 
 const { spawn } = require("child_process");
 const path = require("path");
+const fs = require("fs");
+
+// Load GEMINI_API_KEY from HazardDetection/.env
+function loadHazardEnv() {
+  const envPath = path.resolve(__dirname, "..", "HazardDetection", ".env");
+  try {
+    const lines = fs.readFileSync(envPath, "utf8").split("\n");
+    const env = {};
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith("#")) {
+        const [key, ...rest] = trimmed.split("=");
+        if (key) env[key.trim()] = rest.join("=").trim();
+      }
+    }
+    return env;
+  } catch {
+    return {};
+  }
+}
+const hazardEnv = loadHazardEnv();
 
 app.use(cors());
 // We'll accept JSON from the frontend if it sends it,
@@ -118,14 +139,27 @@ app.post("/api/hazard-detection", async (req, res) => {
     "--poll-interval", String(pollInterval),
   ];
 
-  const p = spawn(py, args, { cwd: projectRoot, env: process.env });
+  console.log("[hazard-detection] Spawning Python:");
+  console.log("  py:", py);
+  console.log("  script:", script);
+  console.log("  args:", args);
+  console.log("  cwd:", projectRoot);
+
+  const hazardDetectionDir = path.join(projectRoot, "HazardDetection");
+  const p = spawn(py, args, { cwd: hazardDetectionDir, env: { ...process.env, ...hazardEnv } });
+
+  p.on("error", (spawnErr) => {
+    console.error("[hazard-detection] Failed to spawn process:", spawnErr.message);
+    res.status(500).json({ success: false, error: spawnErr.message });
+  });
 
   let out = "";
   let err = "";
-  p.stdout.on("data", (d) => (out += d.toString()));
-  p.stderr.on("data", (d) => (err += d.toString()));
+  p.stdout.on("data", (d) => { out += d.toString(); console.log("[hazard-detection stdout]", d.toString()); });
+  p.stderr.on("data", (d) => { err += d.toString(); console.error("[hazard-detection stderr]", d.toString()); });
 
   p.on("close", (code) => {
+    console.log("[hazard-detection] Process exited with code:", code);
     // Extract JSON_RESULTS_START...JSON_RESULTS_END
     const start = out.indexOf("JSON_RESULTS_START:");
     const end = out.indexOf("JSON_RESULTS_END");
@@ -137,6 +171,8 @@ app.post("/api/hazard-detection", async (req, res) => {
     }
 
     if (code !== 0) {
+      console.error("[hazard-detection] Error - stderr:", err);
+      console.error("[hazard-detection] Error - stdout:", out);
       return res.status(500).json({ success: false, code, stderr: err, stdout: out, parsed });
     }
 

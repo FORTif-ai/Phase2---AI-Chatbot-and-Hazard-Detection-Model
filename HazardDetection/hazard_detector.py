@@ -19,6 +19,7 @@ from twilio.rest import Client
 from difflib import SequenceMatcher
 
 load_dotenv()  # loads .env in current dir
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))  # fallback: HazardDetection/.env
 
 # SMS Configuration
 SMS_ENABLED = True  # Set to False to disable SMS notifications

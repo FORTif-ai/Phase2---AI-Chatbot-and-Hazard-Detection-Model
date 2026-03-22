@@ -11,14 +11,6 @@ function VoiceCommand() {
   const [error, setError] = useState('');
   const [conversationHistory, setConversationHistory] = useState([]);
   const [textInput, setTextInput] = useState('');
-  const [hazardMode, setHazardMode] = useState('directory');
-  const [hazardImageFilename, setHazardImageFilename] = useState('image.png');
-  const [hazardVideoFilename, setHazardVideoFilename] = useState('messyPath.mp4');
-  const [hazardZipFilename, setHazardZipFilename] = useState('hallway_images.zip');
-  const [hazardImageDir, setHazardImageDir] = useState('test_images');
-  const [hazardOutputFile, setHazardOutputFile] = useState('testing_documentation/hallway_images.txt');
-  const [hazardPollInterval, setHazardPollInterval] = useState('4.0');
-  const [isRunningHazardDetection, setIsRunningHazardDetection] = useState(false);
 
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -191,93 +183,11 @@ function VoiceCommand() {
     setError('');
   };
 
-  const runHazardDetection = async () => {
-    setIsRunningHazardDetection(true);
-    setError('');
-
-    // Build options based on selected mode
-    const options = {};
-    if (hazardMode === 'image') {
-      options.imageFilename = hazardImageFilename;
-    } else if (hazardMode === 'video') {
-      options.videoFilename = hazardVideoFilename;
-      options.pollInterval = parseFloat(hazardPollInterval) || 4.0;
-    } else if (hazardMode === 'batch') {
-      options.zipFilename = hazardZipFilename;
-      options.outputFile = hazardOutputFile;
-      options.pollInterval = parseFloat(hazardPollInterval) || 4.0;
-    } else if (hazardMode === 'directory') {
-      options.imageDir = hazardImageDir;
-      options.outputFile = hazardOutputFile;
-      options.pollInterval = parseFloat(hazardPollInterval) || 4.0;
-    }
-
-    try {
-      // Add user message to conversation
-      const userMsgId = Date.now();
-      setConversationHistory(prev => [
-        ...prev,
-        {
-          id: userMsgId,
-          type: 'user',
-          text: `Run hazard detection in ${hazardMode} mode`,
-          timestamp: new Date()
-        }
-      ]);
-
-      const result = await voiceApi.triggerHazardDetection(hazardMode, options);
-
-      if (result.success) {
-        // Add assistant response to conversation with images
-        const assistantMsgId = Date.now() + 1;
-        const message = {
-          id: assistantMsgId,
-          type: 'assistant',
-          text: result.message + (result.output ? `\n\nOutput:\n${result.output}` : ''),
-          timestamp: new Date(),
-          images: result.images || null
-        };
-        setConversationHistory(prev => [...prev, message]);
-        setResponse(result.message + (result.output ? `\n\nOutput:\n${result.output}` : ''));
-      } else {
-        setError(result.error || 'Failed to run hazard detection');
-        // Add error message to conversation
-        const assistantMsgId = Date.now() + 1;
-        setConversationHistory(prev => [
-          ...prev,
-          {
-            id: assistantMsgId,
-            type: 'assistant',
-            text: `Error: ${result.error || 'Failed to run hazard detection'}`,
-            timestamp: new Date()
-          }
-        ]);
-      }
-    } catch (err) {
-      console.error('Error running hazard detection:', err);
-      const errorMsg = err.response?.data?.error || err.message || 'Failed to run hazard detection';
-      setError(errorMsg);
-      // Add error message to conversation
-      const assistantMsgId = Date.now() + 1;
-      setConversationHistory(prev => [
-        ...prev,
-        {
-          id: assistantMsgId,
-          type: 'assistant',
-          text: `Error: ${errorMsg}`,
-          timestamp: new Date()
-        }
-      ]);
-    } finally {
-      setIsRunningHazardDetection(false);
-    }
-  };
-
   return (
     <div className="voice-command-container">
       <div className="voice-command-header">
-        <h1>🎤 Fortif.ai Voice Command Interface</h1>
-        <p>Interact with the AI chatbot using voice or text commands</p>
+        <h1>Voice Command Interface</h1>
+        <p>Interact with our Fortif.ai Bot using voice or text commands</p>
       </div>
 
       <div className="voice-command-content">
@@ -311,7 +221,38 @@ function VoiceCommand() {
                 disabled={isProcessing || !patientId}
                 className="record-button start"
               >
-                🎤 Start Recording
+                <span className="record-button-icon" aria-hidden="true">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 14c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v5c0 1.66 1.34 3 3 3Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M19 11v1a7 7 0 0 1-14 0v-1"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M12 19v3"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span>Start Recording</span>
               </button>
             ) : (
               <button
@@ -359,169 +300,6 @@ function VoiceCommand() {
           </form>
         </div>
 
-        {/* Hazard Detection Section */}
-        <div className="hazard-detection-section">
-          <h2>Hazard Detection</h2>
-          <div className="hazard-controls">
-            <div className="hazard-mode-selector">
-              <label htmlFor="hazard-mode">Mode:</label>
-              <select
-                id="hazard-mode"
-                value={hazardMode}
-                onChange={(e) => setHazardMode(e.target.value)}
-                className="mode-dropdown"
-                disabled={isRunningHazardDetection}
-              >
-                <option value="image">Image - Single Image Analysis</option>
-                <option value="video">Video - Video Analysis</option>
-                <option value="batch">Batch - Process Zip File</option>
-                <option value="directory">Directory - Process Directory</option>
-              </select>
-            </div>
-
-            {/* Mode-specific inputs */}
-            {hazardMode === 'image' && (
-              <div className="hazard-input-group">
-                <label htmlFor="hazard-image-filename">Image Filename:</label>
-                <input
-                  id="hazard-image-filename"
-                  type="text"
-                  value={hazardImageFilename}
-                  onChange={(e) => setHazardImageFilename(e.target.value)}
-                  placeholder="image.png"
-                  className="hazard-input"
-                  disabled={isRunningHazardDetection}
-                />
-              </div>
-            )}
-
-            {hazardMode === 'video' && (
-              <>
-                <div className="hazard-input-group">
-                  <label htmlFor="hazard-video-filename">Video Filename:</label>
-                  <input
-                    id="hazard-video-filename"
-                    type="text"
-                    value={hazardVideoFilename}
-                    onChange={(e) => setHazardVideoFilename(e.target.value)}
-                    placeholder="messyPath.mp4"
-                    className="hazard-input"
-                    disabled={isRunningHazardDetection}
-                  />
-                </div>
-                <div className="hazard-input-group">
-                  <label htmlFor="hazard-poll-interval">Poll Interval (seconds):</label>
-                  <input
-                    id="hazard-poll-interval"
-                    type="number"
-                    value={hazardPollInterval}
-                    onChange={(e) => setHazardPollInterval(e.target.value)}
-                    placeholder="4.0"
-                    step="0.1"
-                    min="1"
-                    className="hazard-input"
-                    disabled={isRunningHazardDetection}
-                  />
-                </div>
-              </>
-            )}
-
-            {hazardMode === 'batch' && (
-              <>
-                <div className="hazard-input-group">
-                  <label htmlFor="hazard-zip-filename">Zip Filename:</label>
-                  <input
-                    id="hazard-zip-filename"
-                    type="text"
-                    value={hazardZipFilename}
-                    onChange={(e) => setHazardZipFilename(e.target.value)}
-                    placeholder="hallway_images.zip"
-                    className="hazard-input"
-                    disabled={isRunningHazardDetection}
-                  />
-                </div>
-                <div className="hazard-input-group">
-                  <label htmlFor="hazard-output-file">Output File:</label>
-                  <input
-                    id="hazard-output-file"
-                    type="text"
-                    value={hazardOutputFile}
-                    onChange={(e) => setHazardOutputFile(e.target.value)}
-                    placeholder="testing_documentation/hallway_images.txt"
-                    className="hazard-input"
-                    disabled={isRunningHazardDetection}
-                  />
-                </div>
-                <div className="hazard-input-group">
-                  <label htmlFor="hazard-poll-interval-batch">Poll Interval (seconds):</label>
-                  <input
-                    id="hazard-poll-interval-batch"
-                    type="number"
-                    value={hazardPollInterval}
-                    onChange={(e) => setHazardPollInterval(e.target.value)}
-                    placeholder="4.0"
-                    step="0.1"
-                    min="1"
-                    className="hazard-input"
-                    disabled={isRunningHazardDetection}
-                  />
-                </div>
-              </>
-            )}
-
-            {hazardMode === 'directory' && (
-              <>
-                <div className="hazard-input-group">
-                  <label htmlFor="hazard-image-dir">Image Directory:</label>
-                  <input
-                    id="hazard-image-dir"
-                    type="text"
-                    value={hazardImageDir}
-                    onChange={(e) => setHazardImageDir(e.target.value)}
-                    placeholder="test_images"
-                    className="hazard-input"
-                    disabled={isRunningHazardDetection}
-                  />
-                </div>
-                <div className="hazard-input-group">
-                  <label htmlFor="hazard-output-file-dir">Output File:</label>
-                  <input
-                    id="hazard-output-file-dir"
-                    type="text"
-                    value={hazardOutputFile}
-                    onChange={(e) => setHazardOutputFile(e.target.value)}
-                    placeholder="testing_documentation/hallway_images.txt"
-                    className="hazard-input"
-                    disabled={isRunningHazardDetection}
-                  />
-                </div>
-                <div className="hazard-input-group">
-                  <label htmlFor="hazard-poll-interval-dir">Poll Interval (seconds):</label>
-                  <input
-                    id="hazard-poll-interval-dir"
-                    type="number"
-                    value={hazardPollInterval}
-                    onChange={(e) => setHazardPollInterval(e.target.value)}
-                    placeholder="4.0"
-                    step="0.1"
-                    min="1"
-                    className="hazard-input"
-                    disabled={isRunningHazardDetection}
-                  />
-                </div>
-              </>
-            )}
-
-            <button
-              onClick={runHazardDetection}
-              disabled={isRunningHazardDetection}
-              className="hazard-button"
-            >
-              {isRunningHazardDetection ? '🔄 Running...' : '🚨 Run Hazard Detection'}
-            </button>
-          </div>
-        </div>
-
         {/* Response Display */}
         {response && (
           <div className="response-section">
@@ -531,10 +309,10 @@ function VoiceCommand() {
         )}
 
         {/* Processing Indicator */}
-        {(isProcessing || isRunningHazardDetection) && (
+        {isProcessing && (
           <div className="processing-indicator">
             <div className="spinner"></div>
-            {isRunningHazardDetection ? 'Running hazard detection...' : 'Processing...'}
+            Processing...
           </div>
         )}
 

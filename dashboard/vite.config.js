@@ -7,14 +7,26 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      // Dashboard API endpoints go to RAG API server (port 8000)
-      '/api/dashboard': {
-        target: 'http://localhost:8000',
+      // Node.js server handles voice, text, and hazard detection on port 3001
+      '/api/process-voice': {
+        target: 'http://localhost:3001',
         changeOrigin: true,
       },
-      // Other API endpoints go to Node.js server (port 3001)
-      '/api': {
+      '/api/process-text': {
         target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+      '/api/hazard-detection': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+      '/api/hazard-images': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+      // RAG FastAPI serves /api/dashboard, /api/query, /api/ingest on port 8000
+      '/api': {
+        target: 'http://localhost:8000',
         changeOrigin: true,
       },
     },
