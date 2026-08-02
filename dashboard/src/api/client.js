@@ -1,4 +1,8 @@
 import axios from 'axios'
+import demoAdapter from '../demo/demoAdapter'
+
+// In demo mode (static Vercel build) there is no live backend: serve data locally.
+const DEMO = import.meta.env.VITE_DEMO_MODE === 'true'
 
 // Create axios instance
 const api = axios.create({
@@ -7,6 +11,8 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 })
+
+if (DEMO) api.defaults.adapter = demoAdapter
 
 // Memory API
 export const memoryApi = {

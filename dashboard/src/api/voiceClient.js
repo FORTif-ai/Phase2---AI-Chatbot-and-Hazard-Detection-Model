@@ -1,4 +1,9 @@
 import axios from 'axios';
+import demoAdapter from '../demo/demoAdapter';
+
+// In demo mode (static Vercel build) chat is forwarded to the serverless Gemini
+// function and everything else is served locally.
+const DEMO = import.meta.env.VITE_DEMO_MODE === 'true';
 
 // Create axios instance for voice command API
 // Use relative URL to go through Vite proxy in development
@@ -8,6 +13,8 @@ const voiceApiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+if (DEMO) voiceApiClient.defaults.adapter = demoAdapter;
 
 export const voiceApi = {
   // Process voice audio

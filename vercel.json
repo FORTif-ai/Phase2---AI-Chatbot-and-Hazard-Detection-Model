@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm install --prefix dashboard",
+  "buildCommand": "VITE_DEMO_MODE=true npm run build --prefix dashboard",
+  "outputDirectory": "dashboard/dist",
+  "rewrites": [
+    { "source": "/((?!api).*)", "destination": "/index.html" }
+  ]
+}

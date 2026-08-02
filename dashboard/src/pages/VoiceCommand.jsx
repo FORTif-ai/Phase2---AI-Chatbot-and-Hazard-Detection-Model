@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { voiceApi } from '../api/voiceClient';
 import './VoiceCommand.css';
 
+// In the free demo, voice uses the browser's built-in Web Speech API (no Whisper backend).
+const DEMO = import.meta.env.VITE_DEMO_MODE === 'true';
+
 function VoiceCommand() {
   const [patientId, setPatientId] = useState('');
   const [isRecording, setIsRecording] = useState(false);
@@ -15,6 +18,7 @@ function VoiceCommand() {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const streamRef = useRef(null);
+  const recognitionRef = useRef(null);
 
   // Load patient ID from localStorage on mount
   useEffect(() => {
@@ -34,6 +38,46 @@ function VoiceCommand() {
   const startRecording = async () => {
     if (!patientId) {
       setError('Please enter a Patient ID first');
+      return;
+    }
+
+    // Demo: transcribe in the browser with the free Web Speech API.
+    if (DEMO) {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        setError(
+          'Voice input needs the Web Speech API (try Chrome or Edge). You can type a command instead.'
+        );
+        return;
+      }
+      try {
+        setError('');
+        setTranscription('');
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          setTranscription(transcript);
+          submitText(transcript);
+        };
+        recognition.onerror = (event) => {
+          setError(
+            event.error === 'no-speech'
+              ? "I didn't catch that — please try again."
+              : `Voice error: ${event.error}`
+          );
+        };
+        recognition.onend = () => setIsRecording(false);
+        recognitionRef.current = recognition;
+        recognition.start();
+        setIsRecording(true);
+      } catch (err) {
+        console.error('Web Speech error:', err);
+        setError('Could not start voice input. You can type a command instead.');
+      }
       return;
     }
 
@@ -57,7 +101,7 @@ function VoiceCommand() {
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         await processAudio(audioBlob);
-        
+
         // Stop all tracks
         if (streamRef.current) {
           streamRef.current.getTracks().forEach(track => track.stop());
@@ -74,9 +118,46 @@ function VoiceCommand() {
   };
 
   const stopRecording = () => {
+    if (DEMO) {
+      if (recognitionRef.current) recognitionRef.current.stop();
+      setIsRecording(false);
+      return;
+    }
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+    }
+  };
+
+  // Shared: send a text command through the chat pipeline and record it in history.
+  const submitText = async (text) => {
+    const trimmed = (text || '').trim();
+    if (!trimmed || !patientId) {
+      setError('Please enter text and Patient ID');
+      return;
+    }
+
+    setIsProcessing(true);
+    setError('');
+    setResponse('');
+
+    try {
+      const result = await voiceApi.processText(trimmed, patientId);
+      if (result.success) {
+        setResponse(result.response || '');
+        setConversationHistory((prev) => [
+          ...prev,
+          { id: Date.now(), type: 'user', text: trimmed, timestamp: new Date() },
+          { id: Date.now() + 1, type: 'assistant', text: result.response || '', timestamp: new Date() },
+        ]);
+      } else {
+        setError(result.error || 'Failed to process command');
+      }
+    } catch (err) {
+      console.error('Error processing text:', err);
+      setError(err.response?.data?.error || err.message || 'Failed to process command');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -136,44 +217,9 @@ function VoiceCommand() {
       setError('Please enter text and Patient ID');
       return;
     }
-
-    setIsProcessing(true);
-    setError('');
-    setResponse('');
-
-    try {
-      const result = await voiceApi.processText(textInput, patientId);
-
-      if (result.success) {
-        setResponse(result.response || '');
-        
-        // Add to conversation history
-        setConversationHistory(prev => [
-          ...prev,
-          {
-            id: Date.now(),
-            type: 'user',
-            text: textInput,
-            timestamp: new Date()
-          },
-          {
-            id: Date.now() + 1,
-            type: 'assistant',
-            text: result.response || '',
-            timestamp: new Date()
-          }
-        ]);
-        
-        setTextInput('');
-      } else {
-        setError(result.error || 'Failed to process text command');
-      }
-    } catch (err) {
-      console.error('Error processing text:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to process text');
-    } finally {
-      setIsProcessing(false);
-    }
+    const text = textInput;
+    setTextInput('');
+    await submitText(text);
   };
 
   const clearHistory = () => {

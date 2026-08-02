@@ -21,3 +21,7 @@ rag/qdrant_storage/
 
 # === Logs (runtime noise) ===
 *.log
+
+# Build output
+dashboard/dist/
+dist/
