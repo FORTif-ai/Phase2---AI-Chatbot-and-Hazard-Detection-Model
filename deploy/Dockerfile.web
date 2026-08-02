@@ -1,0 +1,14 @@
+# Build the React dashboard, then serve it (and reverse-proxy the API) with Caddy + auto-HTTPS.
+
+# --- Stage 1: build the static SPA ---
+FROM node:20-slim AS build
+WORKDIR /app/dashboard
+COPY dashboard/package*.json ./
+RUN npm install
+COPY dashboard/ ./
+RUN npm run build
+
+# --- Stage 2: Caddy serves /srv and proxies /api ---
+FROM caddy:2-alpine
+COPY deploy/Caddyfile /etc/caddy/Caddyfile
+COPY --from=build /app/dashboard/dist /srv

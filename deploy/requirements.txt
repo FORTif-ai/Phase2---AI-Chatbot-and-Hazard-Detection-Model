@@ -1,0 +1,86 @@
+# Curated from the root requirements.txt for containerized deployment.
+# Differences from root:
+#   - removed `keyboard`      (only used by the local CLI main.py; errors on headless Linux)
+#   - removed `asyncio==3.4.3` (ancient PyPI backport that breaks modern Python; stdlib asyncio is used)
+#   - `whisper` -> `openai-whisper` (correct package providing whisper.load_model)
+# torch (CPU build) is installed separately in deploy/Dockerfile.python.
+
+annotated-types==0.7.0
+anyio==4.9.0
+cachetools==5.5.2
+certifi==2025.1.31
+charset-normalizer==3.4.1
+filetype==1.2.0
+google-ai-generativelanguage==0.6.17
+google-api-core==2.24.2
+google-api-python-client==2.165.0
+google-auth==2.38.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.1
+googleapis-common-protos==1.69.2
+greenlet==3.1.1
+grpcio==1.71.0
+grpcio-status==1.71.0
+h11==0.14.0
+httpcore==1.0.7
+httplib2==0.22.0
+httpx==0.28.1
+idna==3.10
+jsonpatch==1.33
+jsonpointer==3.0.0
+langchain==0.3.21
+langchain-core==0.3.46
+langchain-google-genai==2.1.0
+langchain-text-splitters==0.3.7
+langsmith==0.3.18
+oauthlib==3.2.2
+orjson==3.10.15
+packaging==24.2
+proto-plus==1.26.1
+protobuf==5.29.3
+pyasn1==0.6.1
+pyasn1-modules==0.4.1
+pydantic==2.10.6
+pydantic-core==2.27.2
+pyparsing==3.2.1
+python-dotenv==1.0.1
+pyyaml==6.0.2
+requests==2.32.3
+requests-oauthlib==2.0.0
+requests-toolbelt==1.0.0
+rsa==4.9
+sniffio==1.3.1
+sqlalchemy==2.0.39
+tenacity==9.0.0
+typing-extensions==4.12.2
+uritemplate==4.1.1
+urllib3==2.3.0
+zstandard==0.23.0
+
+# RAG
+weaviate-client
+openai
+tiktoken
+langchain-community
+pydantic-settings
+slowapi
+
+# Hazard detection (imported by some shared modules)
+opencv-python-headless
+numpy
+pillow
+google-genai
+twilio
+
+# Dashboard auth
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+
+# Web UI / voice
+jinja2
+uvicorn[standard]
+fastapi
+fastapi[all]
+openai-whisper
+SpeechRecognition

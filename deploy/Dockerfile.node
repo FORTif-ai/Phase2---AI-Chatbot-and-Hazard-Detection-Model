@@ -1,0 +1,13 @@
+# Node proxy server (server/index.js). Forwards voice/text to the Python voice service.
+FROM node:20-slim
+
+ENV NODE_ENV=production
+WORKDIR /app/server
+
+COPY server/package*.json ./
+RUN npm install --omit=dev
+
+COPY server/ ./
+
+EXPOSE 3001
+CMD ["node", "index.js"]

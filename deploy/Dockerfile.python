@@ -1,0 +1,29 @@
+# Shared image for the two Python services: RAG API (rag/main.py) and Voice API (web_ui.py).
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# ffmpeg: required by Whisper for audio decoding. build tools: for wheels without prebuilt binaries.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ffmpeg \
+        build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install a CPU-only build of torch first so Whisper doesn't drag in the ~2GB CUDA build.
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+COPY deploy/requirements.txt /app/deploy/requirements.txt
+RUN pip install --no-cache-dir -r /app/deploy/requirements.txt
+
+# Pre-download the Whisper "base" model at build time so the first voice request isn't slow.
+RUN python -c "import whisper; whisper.load_model('base')"
+
+COPY . /app
+
+# Defaults to the voice service; the rag service overrides working_dir + command in compose.
+EXPOSE 8000 8081
+CMD ["python", "web_ui.py"]

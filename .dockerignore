@@ -1,0 +1,27 @@
+# VCS / meta
+.git
+.gitignore
+*.md
+
+# Secrets — never bake into images
+.env
+**/.env
+
+# Node deps (installed inside images)
+node_modules
+**/node_modules
+dashboard/dist
+
+# Python cruft
+venv
+**/__pycache__
+*.pyc
+rag/qdrant_storage
+
+# Runtime logs
+*.log
+
+# Large sample media not needed to run the web app
+HazardDetection/test_images
+HazardDetection/**/*.mp4
+HazardDetection/**/*.zip

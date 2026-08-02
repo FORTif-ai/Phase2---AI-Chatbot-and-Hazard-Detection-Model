@@ -1,0 +1,93 @@
+name: fortifai
+
+# Production stack for the Fortif.ai portfolio demo.
+# Values come from a .env file next to this file (see deploy/.env.example).
+
+services:
+  # Vector database (Google embeddings module, matches rag/docker-compose.yml).
+  # Not published to the host — only reachable by the other containers.
+  weaviate:
+    image: cr.weaviate.io/semitechnologies/weaviate:1.34.0
+    command: ["--host", "0.0.0.0", "--port", "8080", "--scheme", "http"]
+    restart: unless-stopped
+    environment:
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      ENABLE_MODULES: "text2vec-google"
+      DEFAULT_VECTORIZER_MODULE: "text2vec-google"
+      GOOGLE_API_KEY: "${GOOGLE_API_KEY}"
+      QUERY_DEFAULTS_LIMIT: 25
+      PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
+      CLUSTER_HOSTNAME: "node1"
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+
+  # RAG API (rag/main.py) on :8000
+  rag:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.python
+    restart: unless-stopped
+    working_dir: /app/rag
+    command: python main.py
+    environment:
+      GOOGLE_API_KEY: "${GOOGLE_API_KEY}"
+      API_KEY: "${API_KEY}"
+      WEAVIATE_HOST: weaviate
+      WEAVIATE_PORT: "8080"
+      WEAVIATE_GRPC_PORT: "50051"
+      CORS_ORIGINS: "${SITE_URL}"
+    depends_on:
+      - weaviate
+
+  # Voice/text pipeline (web_ui.py, Whisper) on :8081
+  voice:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.python
+    restart: unless-stopped
+    working_dir: /app
+    command: python web_ui.py
+    environment:
+      GOOGLE_API_KEY: "${GOOGLE_API_KEY}"
+      GEMINI_API_KEY: "${GEMINI_API_KEY}"
+      API_KEY: "${API_KEY}"
+      WEAVIATE_HOST: weaviate
+      WEAVIATE_PORT: "8080"
+      WEAVIATE_GRPC_PORT: "50051"
+    depends_on:
+      - weaviate
+
+  # Node proxy (server/index.js) on :3001
+  node:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.node
+    restart: unless-stopped
+    environment:
+      PORT: "3001"
+      PY_API: "http://voice:8081"
+    depends_on:
+      - voice
+
+  # Caddy: TLS termination, static SPA, and /api reverse proxy. The only public entrypoint.
+  web:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.web
+    restart: unless-stopped
+    environment:
+      SITE_ADDRESS: "${SITE_ADDRESS}"
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - rag
+      - node
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  weaviate_data:
+  caddy_data:
+  caddy_config:
