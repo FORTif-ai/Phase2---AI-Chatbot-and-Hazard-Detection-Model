@@ -66,6 +66,7 @@ function Dashboard() {
     <div className="dashboard dashboard-home">
       <header className="home-hero scroll-fade is-visible" aria-labelledby="home-main-title">
         <div className="home-hero-inner">
+          <span className="home-badge">✦ AI-Powered Care</span>
           <h1 id="home-main-title" className="home-title">
             Fortif.ai <span className="home-title-accent">Senior Assistant</span>
           </h1>

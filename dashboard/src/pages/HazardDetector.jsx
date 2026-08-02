@@ -3,7 +3,7 @@ import { voiceApi } from '../api/voiceClient'
 import './VoiceCommand.css'
 
 function HazardDetector() {
-  const [hazardMode, setHazardMode] = useState('directory')
+  const [hazardMode, setHazardMode] = useState('video')
   const [hazardImageFilename, setHazardImageFilename] = useState('image.png')
   const [hazardVideoFilename, setHazardVideoFilename] = useState('messyPath.mp4')
   const [hazardZipFilename, setHazardZipFilename] = useState('hallway_images.zip')
@@ -136,10 +136,7 @@ function HazardDetector() {
                 className="mode-dropdown"
                 disabled={isRunningHazardDetection}
               >
-                <option value="image">Image - Single Image Analysis</option>
                 <option value="video">Video - Video Analysis</option>
-                <option value="batch">Batch - Process Zip File</option>
-                <option value="directory">Directory - Process Directory</option>
               </select>
             </div>
 
