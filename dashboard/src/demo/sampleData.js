@@ -146,7 +146,7 @@ export const SAMPLE_HAZARD_RESULT = {
   images: [
     {
       image_filename: 'hallway_demo.jpg',
-      image_url: '/senior-assistant-banner.png',
+      image_url: `${import.meta.env.BASE_URL}senior-assistant-banner.png`,
       result: {
         people_detected: false,
         hazard_detected: true,

@@ -1,9 +1,13 @@
 // A custom axios adapter used only in demo mode (VITE_DEMO_MODE=true).
-// Everything except live chat is served locally from demoStore; chat (/process-text, /query)
-// is forwarded to the real serverless function so it uses live Gemini.
+// Everything except live chat is served locally from demoStore. Chat (/process-text, /query)
+// is forwarded to the serverless Gemini function when available (Vercel), or answered locally
+// on a purely static host (GitHub Pages, VITE_STATIC=true).
 
 import { demoStore } from './demoStore'
 import { SAMPLE_HAZARD_RESULT } from './sampleData'
+import { demoReply } from './demoChat'
+
+const STATIC = import.meta.env.VITE_STATIC === 'true'
 
 const ok = (config, data, status = 200) => ({
   data,
@@ -35,20 +39,30 @@ export default async function demoAdapter(config) {
   const params = config.params || {}
   await delay(180)
 
-  // --- Live chat: forward to the serverless Gemini function ---
+  // --- Chat ---
   if (method === 'post' && (url === '/process-text' || url === '/query')) {
-    const target = `${config.baseURL || ''}${url}`
     const body = parseBody(config)
-    const r = await fetch(target, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-    const data = await r.json().catch(() => ({
-      success: true,
-      response: "I'm here to help Eleanor — could you try asking that again?",
-    }))
-    return ok(config, data, r.status)
+    const question = body.text || body.question || ''
+
+    // Static host: answer locally, no backend call.
+    if (STATIC) {
+      await delay(350)
+      return ok(config, { success: true, response: demoReply(question), source: 'offline' })
+    }
+
+    // Otherwise forward to the serverless Gemini function; fall back to a local reply on error.
+    try {
+      const r = await fetch(`${config.baseURL || ''}${url}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (!r.ok) throw new Error(`status ${r.status}`)
+      const data = await r.json()
+      return ok(config, data, r.status)
+    } catch {
+      return ok(config, { success: true, response: demoReply(question), source: 'offline' })
+    }
   }
 
   // --- Hazard detection: canned sample result ---

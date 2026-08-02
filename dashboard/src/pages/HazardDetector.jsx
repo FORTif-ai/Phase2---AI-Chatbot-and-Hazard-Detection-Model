@@ -282,7 +282,7 @@ function HazardDetector() {
               ) : (
                 <>
                   <img
-                    src="/hazard-warning-icon.png"
+                    src={`${import.meta.env.BASE_URL}hazard-warning-icon.png`}
                     alt=""
                     aria-hidden="true"
                     className="hazard-button-icon"

@@ -1,0 +1,59 @@
+name: Deploy demo to GitHub Pages
+
+# Builds the dashboard in static demo mode and publishes it to GitHub Pages.
+# Requires: repo Settings -> Pages -> Source: "GitHub Actions".
+
+on:
+  push:
+    branches: [vercel-demo]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: dashboard
+        run: npm ci
+
+      - name: Build (demo + static, subpath base)
+        working-directory: dashboard
+        env:
+          VITE_DEMO_MODE: "true"
+          VITE_STATIC: "true"
+          VITE_BASE: "/Phase2---AI-Chatbot-and-Hazard-Detection-Model/"
+        run: npm run build
+
+      - name: SPA fallback for client-side routing
+        run: cp dashboard/dist/index.html dashboard/dist/404.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dashboard/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

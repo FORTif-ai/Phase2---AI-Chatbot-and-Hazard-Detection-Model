@@ -90,7 +90,7 @@ function Dashboard() {
 
       <section className="home-image-strip scroll-fade is-visible" aria-label="Senior lifestyle banner">
         <img
-          src="/senior-assistant-banner.png"
+          src={`${import.meta.env.BASE_URL}senior-assistant-banner.png`}
           alt="Seniors in home and community settings"
           className="home-image-strip-img"
         />

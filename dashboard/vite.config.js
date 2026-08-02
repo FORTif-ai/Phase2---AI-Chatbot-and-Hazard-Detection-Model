@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // For GitHub Pages the app is served under /<repo>/; the deploy workflow sets VITE_BASE.
+  // Defaults to '/' for local dev and root-hosted deploys (e.g. Vercel).
+  base: process.env.VITE_BASE || '/',
   plugins: [react()],
   server: {
     port: 3000,
