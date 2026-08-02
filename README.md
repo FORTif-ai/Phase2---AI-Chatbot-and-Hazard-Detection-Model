@@ -1,5 +1,11 @@
 # FORTif.ai: An AI assistant for Independent Safe Senior Living 
 
+## 🔗 Live Demo
+
+**[▶ Try FORTif.ai live](https://fortif-ai.github.io/Phase2---AI-Chatbot-and-Hazard-Detection-Model/)** — hosted on GitHub Pages.
+
+> Enter patient ID **`patient_123`** to explore the memory dashboard, chatbot, and voice interface with sample data ("Eleanor").
+
 ## Partners
 In partnership with [WAT.ai](https://watai.ca/#/) and [UBIlab](https://uwaterloo.ca/ubiquitous-health-technology-lab/)
 
